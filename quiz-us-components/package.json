@@ -11,9 +11,8 @@
   "license": "ISC",
   "peerDependencies": {
     "@material-ui/core": "^3.9.3",
-    "react": "^16.8.6"
-  },
-  "dependencies": {
+    "react": "^16.8.6",
     "prop-types": "^15.7.2"
-  }
+  },
+  "dependencies": {}
 }
