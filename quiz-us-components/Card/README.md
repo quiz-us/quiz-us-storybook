@@ -14,6 +14,6 @@ import Card from '@quiz-us/components/Card';
 
 ## Properties
 
-| Props       | Type      | Required | Values          | Default | Description                        |
-| ----------- | --------- | :------: | --------------- | ------- | ---------------------------------- |
-| `isFlipped` | `boolean` |    -     | `true`, `false` | `false` | whether or not the card is flipped |
+| Props       | Type      | Required | Values | Default | Description                        |
+| ----------- | --------- | :------: | ------ | ------- | ---------------------------------- |
+| `isFlipped` | `boolean` |    -     |        | `false` | whether or not the card is flipped |
