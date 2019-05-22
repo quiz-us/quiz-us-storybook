@@ -1,26 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import { colors } from '@material-ui/core';
 
-const Answer = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  border: '1px solid gray',
-  borderRadius: 3,
+const Answer = styled(Button)({
+  width: '100%',
   minHeight: 48,
-  padding: '0 30px',
-  marginTop: '10px',
-  cursor: 'pointer'
+  marginTop: '20px',
+  textTransform: 'none'
+});
+
+const AnswerContainer = styled('div')({
+  margin: '20px'
 });
 
 const QuestionMultipleChoice = ({ question, answers }) => {
+  const [answerStatus, updateAnswerStatus] = useState({
+    answered: false,
+    selectedAnswer: null
+  });
+  const { answered, selectedAnswer } = answerStatus;
+  console.log(answered);
   return (
     <div>
-      {question}
-      {answers.map(({ text }) => {
-        return <Answer key={text}>{text}</Answer>;
-      })}
+      <Typography variant="h4" gutterBottom>
+        {question}
+      </Typography>
+      <AnswerContainer>
+        {answers.map(({ text, correct }, i) => {
+          let color = 'default';
+          if (answered) {
+            if (correct) {
+              color = 'primary';
+            }
+            if (selectedAnswer === i && !correct) {
+              color = 'secondary';
+            }
+          }
+          return (
+            <Answer
+              key={text}
+              color={color}
+              variant="contained"
+              onClick={() =>
+                updateAnswerStatus({ answered: true, selectedAnswer: i })
+              }
+            >
+              {text}
+            </Answer>
+          );
+        })}
+      </AnswerContainer>
     </div>
   );
 };
