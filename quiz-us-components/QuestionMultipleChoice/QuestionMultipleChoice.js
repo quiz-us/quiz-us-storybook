@@ -3,13 +3,27 @@ import { styled } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import { colors } from '@material-ui/core';
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 
-const Answer = styled(Button)({
+const Answer = styled(({ color, ...other }) => <Button {...other} />)({
   width: '100%',
+  background: props => {
+    switch (props.color) {
+      case 'red':
+        return red[400];
+      case 'green':
+        return green[400];
+      default:
+        return null;
+    }
+  },
   minHeight: 48,
   marginTop: '20px',
-  textTransform: 'none'
+  textTransform: 'none',
+  '&:hover': {
+    background: props => props.color
+  }
 });
 
 const AnswerContainer = styled('div')({
@@ -21,8 +35,8 @@ const QuestionMultipleChoice = ({ question, answers }) => {
     answered: false,
     selectedAnswer: null
   });
+
   const { answered, selectedAnswer } = answerStatus;
-  console.log(answered);
   return (
     <div>
       <Typography variant="h4" gutterBottom>
@@ -33,10 +47,10 @@ const QuestionMultipleChoice = ({ question, answers }) => {
           let color = 'default';
           if (answered) {
             if (correct) {
-              color = 'primary';
+              color = 'green';
             }
             if (selectedAnswer === i && !correct) {
-              color = 'secondary';
+              color = 'red';
             }
           }
           return (
