@@ -22,7 +22,10 @@ const Answer = styled(({ color, ...other }) => <Button {...other} />)({
   marginTop: '20px',
   textTransform: 'none',
   '&:hover': {
-    background: props => props.color
+    background: props => {
+      console.log(props);
+      return props.color === 'default' ? '#e0e0e0' : props.color;
+    }
   }
 });
 
