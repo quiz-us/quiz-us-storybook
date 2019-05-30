@@ -1,7 +1,10 @@
 {
   "name": "@quiz-us/components",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Component library for formative assessments",
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
