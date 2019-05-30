@@ -13,10 +13,10 @@ const external = createFilter(
 // path.resolve first and resolved against the current working directory
 
 module.exports = {
-  input: 'src/index.js',
+  input: 'quiz-us-components/src/index.js',
   external,
   output: {
-    file: 'dist/index.js',
+    file: 'quiz-us-components/dist/index.js',
     format: 'cjs'
   },
   plugins: [

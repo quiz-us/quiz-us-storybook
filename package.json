@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "publish-components": "cd quiz-us-components && npm run build && npm version patch && npm publish --access public"
+    "build": "npx rollup -c",
+    "publish-components": "npm run build && cd quiz-us-components && npm version patch && npm publish --access public"
   },
   "keywords": [],
   "author": "",
