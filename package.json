@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build": "npx rollup -c",
@@ -26,12 +26,15 @@
     "@storybook/addon-links": "^5.0.11",
     "@storybook/addons": "^5.0.11",
     "@storybook/react": "^5.0.11",
+    "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "rollup": "^1.12.4",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-pluginutils": "^2.8.0",
+    "jest": "^24.8.0",
+    "react-test-renderer": "^16.8.6",
     "storybook-readme": "^5.0.3"
   }
 }
