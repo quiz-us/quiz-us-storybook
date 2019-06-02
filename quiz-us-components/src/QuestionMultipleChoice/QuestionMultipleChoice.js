@@ -23,7 +23,6 @@ const Answer = styled(({ color, ...other }) => <Button {...other} />)({
   textTransform: 'none',
   '&:hover': {
     background: props => {
-      console.log(props);
       return props.color === 'default' ? '#e0e0e0' : props.color;
     }
   }
