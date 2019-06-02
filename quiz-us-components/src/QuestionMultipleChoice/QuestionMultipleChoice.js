@@ -1,38 +1,46 @@
 import React, { useState } from 'react';
-import { styled } from '@material-ui/styles';
+import { styled, makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
-const Answer = styled(({ color, ...other }) => <Button {...other} />)({
-  width: '100%',
-  background: props => {
-    switch (props.color) {
-      case 'red':
-        return red[400];
-      case 'green':
-        return green[400];
-      default:
-        return null;
-    }
+const useStyles = makeStyles({
+  answerContainer: {
+    margin: '20px'
   },
-  minHeight: 48,
-  marginTop: '20px',
-  textTransform: 'none',
-  '&:hover': {
+  answer: {
+    width: '100%',
     background: props => {
-      return props.color === 'default' ? '#e0e0e0' : props.color;
+      switch (props.color) {
+        case 'red':
+          return red[400];
+        case 'green':
+          return green[400];
+        default:
+          return null;
+      }
+    },
+    minHeight: 48,
+    marginTop: '20px',
+    textTransform: 'none',
+    '&:hover': {
+      background: props => {
+        return props.color === 'default' ? '#e0e0e0' : props.color;
+      }
     }
   }
 });
 
-const AnswerContainer = styled('div')({
-  margin: '20px'
-});
+const Answer = props => {
+  const { color, ...other } = props;
+  const classes = useStyles(props);
+  return <Button className={classes.answer} {...other} />;
+};
 
 const QuestionMultipleChoice = ({ question, answers }) => {
+  const classes = useStyles();
   const [answerStatus, updateAnswerStatus] = useState({
     answered: false,
     selectedAnswer: null
@@ -44,7 +52,7 @@ const QuestionMultipleChoice = ({ question, answers }) => {
       <Typography variant="h4" gutterBottom>
         {question}
       </Typography>
-      <AnswerContainer>
+      <div className={classes.answerContainer}>
         {answers.map(({ text, correct }, i) => {
           let color = 'default';
           if (answered) {
@@ -68,7 +76,7 @@ const QuestionMultipleChoice = ({ question, answers }) => {
             </Answer>
           );
         })}
-      </AnswerContainer>
+      </div>
     </div>
   );
 };
