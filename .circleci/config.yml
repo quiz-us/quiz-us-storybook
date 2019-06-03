@@ -60,5 +60,9 @@ workflows:
       - build_and_test
       - deploy:
           context: aws
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - build_and_test
