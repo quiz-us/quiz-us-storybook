@@ -33,8 +33,7 @@ jobs:
 
       - aws-cli/install
 
-      - aws-cli/configure:
-          profile-name: circleci
+      - aws-cli/configure
 
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
