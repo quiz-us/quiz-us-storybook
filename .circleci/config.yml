@@ -33,7 +33,7 @@ jobs:
 
       - aws-cli/install
 
-      - aws-cli/configure
+      - aws-cli/configure:
           profile-name: circleci
 
       - restore_cache:
