@@ -33,6 +33,16 @@ jobs:
 
       - aws-cli/install
 
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
       # build and deploy Storybook
       - run:
           name: Build StoryBook
