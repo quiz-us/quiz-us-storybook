@@ -45,7 +45,6 @@ jobs:
           paths:
             - node_modules
 
-      # build and deploy Storybook
       - run:
           name: Build StoryBook
           command: npm run build-storybook
