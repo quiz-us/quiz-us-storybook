@@ -1,42 +1,53 @@
-version: 2
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10
+
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+  build_and_test:
+    <<: *defaults
     steps:
       - checkout
 
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
       - run: npm install
 
-      # install python
-      # - run:
-      #     name: Install python
-      #     working_directory: /
-      #     command: |
-      #       sudo apt-get -y -qq update
-      #       sudo apt-get -y -qq install python3.4-dev
-      #       sudo curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-      #       python3.4 get-pip.py --user
-      
-      # install awscli
-      # - run:
-      #     name: Install AWS CLI
-      #     command: /home/circleci/.local/bin/pip install awscli --upgrade --user
-
-      # - save_cache:
-      #     paths:
-      #       - node_modules
-      #     key: v1-dependencies-{{ checksum "package.json" }}
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
 
       - run:
           name: Run Jest Tests
           command: npm test
+
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - aws-cli/install
+
+      # build and deploy Storybook
+      - run:
+          name: Build StoryBook
+          command: npm run build-storybook
+      - run:
+          name: Deploy Quiz Us Storybook
+          command: aws s3 sync ./.storybook-static s3://storybook-quizus
+          # access at: http://storybook-quizus.s3-website-us-west-2.amazonaws.com
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build_and_test
+      - deploy:
+          context: aws
+          requires:
+            - build_and_test
