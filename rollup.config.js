@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import input from './buildInputs';
 
 import { createFilter } from 'rollup-pluginutils';
 
@@ -13,10 +14,10 @@ const external = createFilter(
 // path.resolve first and resolved against the current working directory
 
 module.exports = {
-  input: 'quiz-us-components/src/index.js',
+  input,
   external,
   output: {
-    file: 'quiz-us-components/dist/index.js',
+    dir: 'quiz-us-components/dist',
     format: 'cjs'
   },
   plugins: [

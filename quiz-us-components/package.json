@@ -1,6 +1,6 @@
 {
   "name": "@quiz-us/kit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Component library for formative assessments",
   "files": [
     "dist",
