@@ -1,5 +1,5 @@
 import React from 'react';
-import QuestionMultipleChoice from '../../quiz-us-components/src/QuestionMultipleChoice';
+import QuestionMultipleChoice from '../../quiz-us-components/src/components/QuestionMultipleChoice';
 
 const question = 'What is an atom?';
 const answers = [
