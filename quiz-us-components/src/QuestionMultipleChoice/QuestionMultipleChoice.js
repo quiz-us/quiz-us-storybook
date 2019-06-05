@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
@@ -83,7 +83,12 @@ const QuestionMultipleChoice = ({ question, answers }) => {
 
 QuestionMultipleChoice.propTypes = {
   question: PropTypes.string.isRequired,
-  answers: PropTypes.array.isRequired
+  answers: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      correct: PropTypes.bool
+    })
+  ).isRequired
 };
 
 export default QuestionMultipleChoice;
