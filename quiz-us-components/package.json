@@ -1,12 +1,11 @@
 {
   "name": "@quiz-us/kit",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Component library for formative assessments",
   "files": [
     "dist",
     "README.md",
-    "LICENSE",
-    "src"
+    "LICENSE"
   ],
   "main": "dist/index.js",
   "scripts": {

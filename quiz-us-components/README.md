@@ -10,7 +10,7 @@ Using the Quiz Us material-ui theme is optional. To do so, import the `QuizUsThe
 ```js
   import React from 'react'
   import App from './App';
-  import QuizUsTheme from '@quiz-us/kit';
+  import { QuizUsTheme } from '@quiz-us/kit';
 
   const root = () => {
     return (

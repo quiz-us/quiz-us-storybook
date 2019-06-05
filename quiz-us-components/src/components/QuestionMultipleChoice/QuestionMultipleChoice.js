@@ -52,7 +52,6 @@ const QuestionMultipleChoice = ({ question, answers }) => {
     <div>
       <Typography variant="h4" gutterBottom>
         {question}
-        <Button color="secondary" variant="contained">Test</Button>
       </Typography>
       <div className={classes.answerContainer}>
         {answers.map(({ text, correct }, i) => {
