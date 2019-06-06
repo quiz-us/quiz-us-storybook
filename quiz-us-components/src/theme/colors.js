@@ -1,1 +1,1 @@
-export const gray = '#e0e0e0';
+export const GRAY = '#e0e0e0';

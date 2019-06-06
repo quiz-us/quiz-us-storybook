@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
-import { gray } from '../../theme/colors';
+import { GRAY } from '../../theme/colors';
 
 const useStyles = makeStyles({
   answerContainer: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {
       background: props => {
-        return props.color === 'default' ? gray : props.color;
+        return props.color === 'default' ? GRAY : props.color;
       }
     }
   }
