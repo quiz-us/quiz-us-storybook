@@ -1,8 +1,13 @@
 {
-  "name": "@quiz-us/components",
-  "version": "1.0.0",
+  "name": "@quiz-us/kit",
+  "version": "0.0.4",
   "description": "Component library for formative assessments",
-  "main": "index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,10 +15,11 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/styles": "^3.0.0-alpha.10",
+    "@material-ui/core": "^4.0.0-rc.0",
+    "@material-ui/icons": "^4.0.1",
+    "@material-ui/styles": "^4.0.1",
     "react": "^16.8.6",
-    "prop-types": "^15.7.2"
-  },
-  "dependencies": {}
+    "prop-types": "^15.7.2",
+    "react-dom": "^16.8.6"
+  }
 }
