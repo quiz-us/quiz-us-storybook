@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import { GRAY } from '../../theme/colors';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles({
   answerContainer: {
@@ -56,13 +58,13 @@ const QuestionMultipleChoice = ({ question, answers }) => {
       <div className={classes.answerContainer}>
         {answers.map(({ text, correct }, i) => {
           let color = 'default';
-          if (answered) {
-            if (correct) {
-              color = 'green';
-            }
-            if (selectedAnswer === i && !correct) {
-              color = 'red';
-            }
+          let answeredCorrect = answered && correct;
+          let answeredWrong = selectedAnswer === i && !correct;
+
+          if (answeredCorrect) {
+            color = 'green';
+          } else if (answeredWrong) {
+            color = 'red';
           }
           return (
             <Answer
@@ -74,6 +76,8 @@ const QuestionMultipleChoice = ({ question, answers }) => {
               }
             >
               {text}
+              {answeredCorrect && <CheckCircleOutlineIcon />}
+              {answeredWrong && <HighlightOffIcon />}
             </Answer>
           );
         })}
