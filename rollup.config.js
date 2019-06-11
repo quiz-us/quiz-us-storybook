@@ -9,7 +9,11 @@ import { createFilter } from 'rollup-pluginutils';
 const deps = Object.keys(pkg.dependencies || {});
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 
+// list all dependencies as external so that it is not bundled into the
+// dist build:
 const external = createFilter(
+  // @material-ui/** is explicitly listed because sometimes of specified imports,
+  // like: 'import red from '@material-ui/core/colors/red';'
   deps.concat(peerDeps, ['@material-ui/**']),
   null,
   { resolve: false }
