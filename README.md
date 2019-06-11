@@ -2,6 +2,29 @@
 
 This is the development environment for building components for the [`@quiz-us/kit` component library](https://www.npmjs.com/package/@quiz-us/kit).
 
+## Setting Up
+
+`npm run prepare`
+`npm start`
+
+## Managing Dependencies
+
+This project has 2 `package.json` files: 1 for the outer storybook-level
+directory, and 1 for the inner directory that we publish as an npm component
+library.
+
+For the outer level, `dependencies` should simulate the environment that
+consumers of our component library would have. For example, we would expect
+consumers of our component library to already have `react` and `react-dom` in
+their project, so we simulate that by adding it as a depenency in the outer
+storybook directory.
+
+Anything that's listed under `dependencies` in the outer level should be listed
+under `peerDependencies` in the inner directory's `package.json`.
+
+If your component depends on a library that is not likely to exist already in
+the end user's project, then mark it as a dependency on the inner level.
+
 ## Checklist
 
 When building a new component, try your best to have the following:
