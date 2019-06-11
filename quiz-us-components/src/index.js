@@ -1,4 +1,3 @@
-import RichTextEditor from '../../stories/RichTextEditor/index';
 export {
   default as QuestionMultipleChoice
 } from './components/QuestionMultipleChoice';
