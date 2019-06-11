@@ -4,7 +4,7 @@ This is the development environment for building components for the [`@quiz-us/k
 
 ## Setting Up
 
-`npm run prepare`
+`npm run setup`
 `npm start`
 
 ## Managing Dependencies

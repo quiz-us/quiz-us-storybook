@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepare": "sh scripts/setUpDev.sh",
+    "setup": "sh scripts/setUpDev.sh",
     "lint": "eslint quiz-us-components/src --fix",
     "build": "npm run lint && npx rollup -c",
     "publish-components": "npm run build && cd quiz-us-components && npm version patch && npm publish --access public"
