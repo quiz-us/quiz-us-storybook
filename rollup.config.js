@@ -2,11 +2,15 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import input from './buildInputs';
+import pkg from './quiz-us-components/package.json';
 
 import { createFilter } from 'rollup-pluginutils';
 
+const deps = Object.keys(pkg.dependencies || {});
+const peerDeps = Object.keys(pkg.peerDependencies || {});
+
 const external = createFilter(
-  ['prop-types', 'react', 'react-dom', '@material-ui/**'],
+  deps.concat(peerDeps, ['@material-ui/**']),
   null,
   { resolve: false }
 );
@@ -18,7 +22,7 @@ module.exports = {
   external,
   output: {
     dir: 'quiz-us-components/dist',
-    format: 'cjs'
+    format: 'esm'
   },
   plugins: [
     resolve(),

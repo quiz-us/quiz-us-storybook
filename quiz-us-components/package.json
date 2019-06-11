@@ -1,6 +1,6 @@
 {
   "name": "@quiz-us/kit",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Component library for formative assessments",
   "files": [
     "dist",
@@ -14,6 +14,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "slate": "^0.47.4",
+    "slate-react": "^0.22.4"
+  },
   "peerDependencies": {
     "@material-ui/core": "^4.0.0-rc.0",
     "@material-ui/icons": "^4.0.1",
