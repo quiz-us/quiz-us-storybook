@@ -7,4 +7,8 @@ const standards = [
   { id: 3, name: '8.8A' }
 ];
 
-export default () => <QuestionForm standards={standards} />;
+const questionTypes = ['Multiple Choice', 'Free Response'];
+
+export default () => (
+  <QuestionForm standards={standards} questionTypes={questionTypes} />
+);
