@@ -5,7 +5,7 @@ import Readme from '../../quiz-us-components/src/components/RichTextEditor/READM
 import { RichTextEditor } from '../../quiz-us-components/src';
 
 export default () => {
-  storiesOf('Rich Text RichTextEditor', module)
+  storiesOf('Rich Text Editor', module)
     .addDecorator(withReadme(Readme))
     .add('RichTextEditor', () => <RichTextEditor />);
 };
