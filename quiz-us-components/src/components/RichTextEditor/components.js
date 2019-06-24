@@ -20,7 +20,9 @@ const useMenuStyles = makeStyles({
     },
     '& > * + *': {
       marginLeft: '15px'
-    }
+    },
+    borderBottom: '2px solid gray',
+    padding: '15px'
   }
 });
 

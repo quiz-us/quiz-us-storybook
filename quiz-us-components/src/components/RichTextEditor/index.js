@@ -14,34 +14,40 @@ import React from 'react';
 import initialValue from './value.json';
 import { isKeyHotkey } from 'is-hotkey';
 import { Button, Toolbar } from './components';
-import { makeStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
-// const useStyles = makeStyles({
-//   root: {
-//     '& textarea': {
-//       fontFamily: "'Roboto', sans - serif",
-//       lineHeight: 1.4,
-//       background: '#eee'
-//     },
-//     '& body': {
-//       margin: 0
-//     },
-//     '& p': {
-//       margin: 0
-//     },
-//     '& pre': {
-//       padding: '10px',
-//       backgroundColor: '#eee',
-//       whiteSpace: 'pre-wrap'
-//     },
+const styles = {
+  root: {
+    '& blockquote': {
+      borderLeft: '2px solid #ddd',
+      marginLeft: 0,
+      marginRight: 0,
+      paddingLeft: '10px',
+      color: '#aaa',
+      fontStyle: 'italic'
+    },
 
-//     '$: not(pre) > code': {
-//       fontFamily: 'monospace',
-//       backgroundColor: '#eee',
-//       padding: '3px'
-//     }
-//   }
-// });
+    "& blockquote[dir = 'rtl']": {
+      borderLeft: 'none',
+      paddingLeft: 0,
+      paddingRight: '10px',
+      borderRight: '2px solid #ddd'
+    },
+
+    '& code': {
+      backgroundColor: '#eee',
+      padding: '3px'
+    }
+  },
+  editor: {
+    fontFamily: "'Roboto', sans-serif",
+    lineHeight: 1.2,
+    padding: '15px'
+  },
+  icon: {
+    width: '.8em'
+  }
+};
 
 /**
  * Define the default node type.
@@ -68,7 +74,7 @@ const isCodeHotkey = isKeyHotkey('mod+`');
  * @type {Component}
  */
 
-class RichTextExample extends React.Component {
+class RichTextEditor extends React.Component {
   /**
    * Deserialize the initial editor value.
    *
@@ -120,20 +126,46 @@ class RichTextExample extends React.Component {
    */
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <Toolbar>
-          {this.renderMarkButton('bold', <FormatBoldIcon />)}
-          {this.renderMarkButton('italic', <FormatItalicIcon />)}
-          {this.renderMarkButton('underlined', <FormatUnderlinedIcon />)}
-          {this.renderMarkButton('code', <CodeIcon />)}
-          {this.renderBlockButton('heading-one', <LooksOneIcon />)}
-          {this.renderBlockButton('heading-two', <LooksTwoIcon />)}
-          {this.renderBlockButton('block-quote', <FormatQuoteIcon />)}
-          {this.renderBlockButton('numbered-list', <FormatListNumberedIcon />)}
-          {this.renderBlockButton('bulleted-list', <FormatListBulletedIcon />)}
+          {this.renderMarkButton(
+            'bold',
+            <FormatBoldIcon className={classes.icon} />
+          )}
+          {this.renderMarkButton(
+            'italic',
+            <FormatItalicIcon className={classes.icon} />
+          )}
+          {this.renderMarkButton(
+            'underlined',
+            <FormatUnderlinedIcon className={classes.icon} />
+          )}
+          {this.renderMarkButton('code', <CodeIcon className={classes.icon} />)}
+          {this.renderBlockButton(
+            'heading-one',
+            <LooksOneIcon className={classes.icon} />
+          )}
+          {this.renderBlockButton(
+            'heading-two',
+            <LooksTwoIcon className={classes.icon} />
+          )}
+          {this.renderBlockButton(
+            'block-quote',
+            <FormatQuoteIcon className={classes.icon} />
+          )}
+          {this.renderBlockButton(
+            'numbered-list',
+            <FormatListNumberedIcon className={classes.icon} />
+          )}
+          {this.renderBlockButton(
+            'bulleted-list',
+            <FormatListBulletedIcon className={classes.icon} />
+          )}
         </Toolbar>
         <Editor
+          className={classes.editor}
           spellCheck
           autoFocus
           placeholder="Enter some rich text..."
@@ -358,4 +390,4 @@ class RichTextExample extends React.Component {
  * Export.
  */
 
-export default RichTextExample;
+export default withStyles(styles)(RichTextEditor);
