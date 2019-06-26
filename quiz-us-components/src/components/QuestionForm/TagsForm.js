@@ -224,8 +224,7 @@ DownshiftMultiple.propTypes = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-    height: 250
+    flexGrow: 1
   },
   container: {
     flexGrow: 1,

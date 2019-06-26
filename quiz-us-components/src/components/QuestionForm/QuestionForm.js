@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TagsForm from './TagsForm';
 import useForm from '../../hooks/useForm';
+import { RichTextEditor } from '../../index';
 
 const useStyles = makeStyles({
   form: {
@@ -97,6 +98,8 @@ const QuestionForm = ({ standards, questionTypes }) => {
       >
         <TagsForm />
       </FormControl>
+      <h2>Question:</h2>
+      <RichTextEditor />
     </form>
   );
 };
