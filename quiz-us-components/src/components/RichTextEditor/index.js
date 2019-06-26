@@ -408,26 +408,6 @@ RichTextEditor.defaultProps = {
               text: ''
             }
           ]
-        },
-        {
-          object: 'block',
-          type: 'paragraph',
-          nodes: [
-            {
-              object: 'text',
-              text: ''
-            }
-          ]
-        },
-        {
-          object: 'block',
-          type: 'paragraph',
-          nodes: [
-            {
-              object: 'text',
-              text: ''
-            }
-          ]
         }
       ]
     }

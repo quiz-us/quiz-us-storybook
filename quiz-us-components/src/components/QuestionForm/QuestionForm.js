@@ -20,8 +20,12 @@ const useStyles = makeStyles({
     width: '40%',
     marginBottom: '20px'
   },
-  tagsFormControl: {
+  wideFormControl: {
     width: '90%'
+  },
+  questionAnswerContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 
@@ -43,6 +47,32 @@ const QuestionForm = ({ standards, questionTypes }) => {
     standard: '',
     questionType: ''
   });
+  const answer = () => {
+    if (inputs.questionType === 'Free Response') {
+      return (
+        <FormControl
+          className={`${classes.formControl} ${classes.wideFormControl}`}
+        >
+          <h3>Answer: </h3>
+          <RichTextEditor />
+        </FormControl>
+      );
+    }
+    return null;
+  };
+  const questionAndAnswer = () => {
+    return (
+      <div className={classes.questionAnswerContainer}>
+        <FormControl
+          className={`${classes.formControl} ${classes.wideFormControl}`}
+        >
+          <h3>Question: </h3>
+          <RichTextEditor />
+        </FormControl>
+        {answer()}
+      </div>
+    );
+  };
   return (
     <form className={classes.form}>
       <FormControl className={classes.formControl}>
@@ -94,12 +124,11 @@ const QuestionForm = ({ standards, questionTypes }) => {
         </Select>
       </FormControl>
       <FormControl
-        className={`${classes.formControl} ${classes.tagsFormControl}`}
+        className={`${classes.formControl} ${classes.wideFormControl}`}
       >
         <TagsForm />
       </FormControl>
-      <h2>Question:</h2>
-      <RichTextEditor />
+      {questionAndAnswer()}
     </form>
   );
 };
