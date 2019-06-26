@@ -9,7 +9,7 @@
         "nodes": [
           {
             "object": "text",
-            "text": "This is editable "
+            "text": "This is a "
           },
           {
             "object": "text",
@@ -22,7 +22,7 @@
           },
           {
             "object": "text",
-            "text": " text, "
+            "text": " text editor, built on SlateJs, "
           },
           {
             "object": "text",

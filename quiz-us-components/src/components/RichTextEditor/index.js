@@ -11,10 +11,10 @@ import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import CodeIcon from '@material-ui/icons/Code';
 import React from 'react';
-import initialValue from './value.json';
 import { isKeyHotkey } from 'is-hotkey';
 import { Button, Toolbar } from './components';
 import { withStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
 
 const styles = {
   root: {
@@ -82,7 +82,7 @@ class RichTextEditor extends React.Component {
    */
 
   state = {
-    value: Value.fromJSON(initialValue)
+    value: Value.fromJSON(this.props.initialValue)
   };
 
   /**
@@ -126,7 +126,7 @@ class RichTextEditor extends React.Component {
    */
 
   render() {
-    const { classes } = this.props;
+    const { classes, placeholder } = this.props;
     return (
       <div className={classes.root}>
         <Toolbar>
@@ -168,7 +168,7 @@ class RichTextEditor extends React.Component {
           className={classes.editor}
           spellCheck
           autoFocus
-          placeholder="Enter some rich text..."
+          placeholder={placeholder}
           ref={this.ref}
           value={this.state.value}
           onChange={this.onChange}
@@ -386,8 +386,31 @@ class RichTextEditor extends React.Component {
   };
 }
 
-/**
- * Export.
- */
+RichTextEditor.propTypes = {
+  initialValue: PropTypes.object,
+  placeholder: PropTypes.string
+};
+
+RichTextEditor.defaultProps = {
+  initialValue: {
+    object: 'value',
+    document: {
+      object: 'document',
+      nodes: [
+        {
+          object: 'block',
+          type: 'paragraph',
+          nodes: [
+            {
+              object: 'text',
+              text: ''
+            }
+          ]
+        }
+      ]
+    }
+  },
+  placeholder: 'Write here...'
+};
 
 export default withStyles(styles)(RichTextEditor);
