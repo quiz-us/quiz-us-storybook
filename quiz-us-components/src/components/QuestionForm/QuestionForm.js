@@ -45,8 +45,17 @@ const QuestionForm = ({ standards, questionTypes }) => {
   const selectClasses = useSelectStyles();
   const { inputs, handleInputChange } = useForm({
     standard: '',
-    questionType: ''
+    questionType: '',
+    tags: []
   });
+  const updateTags = tags => {
+    handleInputChange({
+      target: {
+        name: 'tags',
+        value: tags
+      }
+    });
+  };
   const answer = () => {
     if (inputs.questionType === 'Free Response') {
       return (
@@ -73,6 +82,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
       </div>
     );
   };
+
   return (
     <form className={classes.form}>
       <FormControl className={classes.formControl}>
@@ -126,7 +136,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
       <FormControl
         className={`${classes.formControl} ${classes.wideFormControl}`}
       >
-        <TagsForm />
+        <TagsForm updateTags={updateTags} />
       </FormControl>
       {questionAndAnswer()}
     </form>

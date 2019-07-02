@@ -117,10 +117,9 @@ function getSuggestions(value, { showEmpty = false } = {}) {
 }
 
 function DownshiftMultiple(props) {
-  const { classes } = props;
+  const { classes, updateTags } = props;
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState([]);
-
   function handleKeyDown(event) {
     if (
       selectedItem.length &&
@@ -142,12 +141,14 @@ function DownshiftMultiple(props) {
     }
     setInputValue('');
     setSelectedItem(newSelectedItem);
+    updateTags(newSelectedItem);
   }
 
   const handleDelete = item => () => {
     const newSelectedItem = [...selectedItem];
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
     setSelectedItem(newSelectedItem);
+    updateTags(newSelectedItem);
   };
 
   return (
@@ -252,12 +253,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TagForm() {
+export default function TagForm(props) {
   const classes = useStyles();
-
+  const { updateTags } = props;
   return (
     <div className={classes.root}>
-      <DownshiftMultiple classes={classes} />
+      <DownshiftMultiple classes={classes} updateTags={updateTags} />
     </div>
   );
 }
