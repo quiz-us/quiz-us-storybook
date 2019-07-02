@@ -295,6 +295,7 @@ class RichTextEditor extends React.Component {
 
   onChange = ({ value }) => {
     this.setState({ value });
+    this.props.updateParentState(value);
   };
 
   /**

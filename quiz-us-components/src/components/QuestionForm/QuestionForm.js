@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TagsForm from './TagsForm';
 import useForm from '../../hooks/useForm';
-import { RichTextEditor } from '../../index';
+import QuestionAndAnswer from './QuestionAndAnswers';
 
 const useStyles = makeStyles({
   form: {
@@ -46,7 +46,9 @@ const QuestionForm = ({ standards, questionTypes }) => {
   const { inputs, handleInputChange } = useForm({
     standard: '',
     questionType: '',
-    tags: []
+    tags: [],
+    question: {},
+    answers: []
   });
   const updateTags = tags => {
     handleInputChange({
@@ -56,31 +58,14 @@ const QuestionForm = ({ standards, questionTypes }) => {
       }
     });
   };
-  const answer = () => {
-    if (inputs.questionType === 'Free Response') {
-      return (
-        <FormControl
-          className={`${classes.formControl} ${classes.wideFormControl}`}
-        >
-          <h3>Answer: </h3>
-          <RichTextEditor />
-        </FormControl>
-      );
-    }
-    return null;
-  };
-  const questionAndAnswer = () => {
-    return (
-      <div className={classes.questionAnswerContainer}>
-        <FormControl
-          className={`${classes.formControl} ${classes.wideFormControl}`}
-        >
-          <h3>Question: </h3>
-          <RichTextEditor />
-        </FormControl>
-        {answer()}
-      </div>
-    );
+
+  const updateQuestion = question => {
+    handleInputChange({
+      target: {
+        name: 'question',
+        value: question
+      }
+    });
   };
 
   return (
@@ -138,7 +123,11 @@ const QuestionForm = ({ standards, questionTypes }) => {
       >
         <TagsForm updateTags={updateTags} />
       </FormControl>
-      {questionAndAnswer()}
+      <QuestionAndAnswer
+        classes={classes}
+        updateQuestion={updateQuestion}
+        questionType={inputs.questionType}
+      />
     </form>
   );
 };
