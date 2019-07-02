@@ -125,7 +125,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
       </FormControl>
       <QuestionAndAnswer
         classes={classes}
-        updateQuestion={updateQuestion}
+        updateParentQuestion={updateQuestion}
         questionType={inputs.questionType}
       />
     </form>
