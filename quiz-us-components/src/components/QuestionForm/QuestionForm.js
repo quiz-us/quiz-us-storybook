@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -68,8 +69,22 @@ const QuestionForm = ({ standards, questionTypes }) => {
     });
   };
 
+  const updateAnswers = answers => {
+    handleInputChange({
+      target: {
+        name: 'answers',
+        value: answers
+      }
+    });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    console.log(inputs);
+  };
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={onSubmit}>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="questionType-select">
           Select Question Type
@@ -126,8 +141,12 @@ const QuestionForm = ({ standards, questionTypes }) => {
       <QuestionAndAnswer
         classes={classes}
         updateParentQuestion={updateQuestion}
+        updateParentAnswers={updateAnswers}
         questionType={inputs.questionType}
       />
+      <Button type="submit" variant="contained" className={classes.button}>
+        Submit
+      </Button>
     </form>
   );
 };

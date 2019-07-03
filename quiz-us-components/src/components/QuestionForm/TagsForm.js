@@ -220,7 +220,8 @@ function DownshiftMultiple(props) {
 }
 
 DownshiftMultiple.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  updateTags: PropTypes.func.isRequired
 };
 
 const useStyles = makeStyles(theme => ({
@@ -253,7 +254,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TagForm(props) {
+const TagForm = props => {
   const classes = useStyles();
   const { updateTags } = props;
   return (
@@ -261,4 +262,10 @@ export default function TagForm(props) {
       <DownshiftMultiple classes={classes} updateTags={updateTags} />
     </div>
   );
-}
+};
+
+TagForm.propTypes = {
+  updateTags: PropTypes.func.isRequired
+};
+
+export default TagForm;

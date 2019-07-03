@@ -22,6 +22,7 @@ const QuestionAndAnswer = ({
       const updated = [...answers];
       updated[index].value = updatedVal;
       updateAnswers(updated);
+      updateParentAnswers(updated);
     };
   };
   const addAnswerChoice = e => {
@@ -96,6 +97,11 @@ const QuestionAndAnswer = ({
   );
 };
 
-QuestionAndAnswer.propTypes = {};
+QuestionAndAnswer.propTypes = {
+  questionType: PropTypes.string.isRequired,
+  updateParentQuestion: PropTypes.func.isRequired,
+  updateParentAnswers: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+};
 
 export default QuestionAndAnswer;
