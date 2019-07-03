@@ -9,12 +9,12 @@ export default function EnhancedTableHead({ headRows, order, orderBy, onRequestS
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
-
     return (
         <TableHead>
             <TableRow>
-                {headRows.map(row => (
-                    <TableCell
+                {headRows.map(row => {
+                    // console.log(row);
+                    return (<TableCell
                         key={row.id}
                         align={row.numeric ? 'right' : 'left'}
                         padding={row.disablePadding ? 'none' : 'default'}
@@ -27,8 +27,8 @@ export default function EnhancedTableHead({ headRows, order, orderBy, onRequestS
                         >
                             {row.label}
                         </TableSortLabel>
-                    </TableCell>
-                ))}
+                    </TableCell>)
+                })}
             </TableRow>
         </TableHead>
     );
