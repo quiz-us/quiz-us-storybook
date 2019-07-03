@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -9,6 +10,13 @@ import { RichTextEditor } from '../../index';
 
 const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 
+const useStyles = makeStyles({
+  addButton: {
+    width: '35px',
+    margin: '10px auto'
+  }
+});
+
 const generateAnswerId = () => crypto.randomBytes(20).toString('hex');
 
 const QuestionAndAnswer = ({
@@ -17,6 +25,7 @@ const QuestionAndAnswer = ({
   updateParentAnswers,
   classes
 }) => {
+  let componentClasses = useStyles();
   const [answers, updateAnswers] = useState([
     { value: undefined, answerId: generateAnswerId() }
   ]);
@@ -70,7 +79,11 @@ const QuestionAndAnswer = ({
               </div>
             );
           })}
-          <IconButton onClick={addAnswerChoice}>
+          <IconButton
+            color="secondary"
+            onClick={addAnswerChoice}
+            className={componentClasses.addButton}
+          >
             <AddCircleIcon />
           </IconButton>
         </React.Fragment>

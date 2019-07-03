@@ -18,7 +18,6 @@ import PropTypes from 'prop-types';
 
 const styles = {
   root: {
-    width: '95%',
     backgroundColor: '#F6F8FA',
     '& blockquote': {
       borderLeft: '2px solid #ddd',

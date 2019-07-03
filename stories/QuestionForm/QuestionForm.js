@@ -1,5 +1,13 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/styles';
 import { QuestionForm } from '../../quiz-us-components/src';
+
+const useStyles = makeStyles({
+  root: {
+    margin: '20px',
+    width: '80%'
+  }
+});
 
 const standards = [
   { id: 1, name: '6.5A' },
@@ -9,6 +17,11 @@ const standards = [
 
 const questionTypes = ['Free Response', 'Multiple Choice'];
 
-export default () => (
-  <QuestionForm standards={standards} questionTypes={questionTypes} />
-);
+export default () => {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <QuestionForm standards={standards} questionTypes={questionTypes} />
+    </div>
+  );
+};

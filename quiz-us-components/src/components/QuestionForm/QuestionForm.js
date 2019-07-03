@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import Card from '@material-ui/core/Card';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -12,17 +13,17 @@ import QuestionAndAnswer from './QuestionAndAnswers';
 
 const useStyles = makeStyles({
   form: {
-    padding: '20px',
-    width: '100%',
+    width: '90%',
+    margin: '20px auto',
     display: 'flex',
     flexDirection: 'column'
   },
   formControl: {
-    width: '40%',
+    // width: '40%',
     marginBottom: '20px'
   },
   wideFormControl: {
-    width: '90%'
+    // width: '90%'
   },
   questionAnswerContainer: {
     display: 'flex',
@@ -88,75 +89,77 @@ const QuestionForm = ({ standards, questionTypes }) => {
   };
 
   return (
-    <form className={classes.form} onSubmit={onSubmit}>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="questionType-select">
-          Select Question Type
-        </InputLabel>
-        <Select
-          value={inputs.questionType}
-          onChange={handleInputChange}
-          classes={selectClasses}
-          className={classes.select}
-          inputProps={{
-            name: 'questionType',
-            id: 'questionType-select'
-          }}
+    <Card>
+      <form className={classes.form} onSubmit={onSubmit}>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="questionType-select">
+            Select Question Type
+          </InputLabel>
+          <Select
+            value={inputs.questionType}
+            onChange={handleInputChange}
+            classes={selectClasses}
+            className={classes.select}
+            inputProps={{
+              name: 'questionType',
+              id: 'questionType-select'
+            }}
+          >
+            {questionTypes.map(type => {
+              return (
+                <MenuItem className={classes.menuItem} key={type} value={type}>
+                  {type}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="standard-select">Select Standard</InputLabel>
+          <Select
+            value={inputs.standard}
+            onChange={handleInputChange}
+            classes={selectClasses}
+            className={classes.select}
+            inputProps={{
+              name: 'standard',
+              id: 'standard-select'
+            }}
+          >
+            {standards.map(standard => {
+              return (
+                <MenuItem
+                  className={classes.menuItem}
+                  key={standard.id}
+                  value={standard.id}
+                >
+                  {standard.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <FormControl
+          className={`${classes.formControl} ${classes.wideFormControl}`}
         >
-          {questionTypes.map(type => {
-            return (
-              <MenuItem className={classes.menuItem} key={type} value={type}>
-                {type}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="standard-select">Select Standard</InputLabel>
-        <Select
-          value={inputs.standard}
-          onChange={handleInputChange}
-          classes={selectClasses}
-          className={classes.select}
-          inputProps={{
-            name: 'standard',
-            id: 'standard-select'
-          }}
+          <TagsForm updateTags={updateTags} />
+        </FormControl>
+        <QuestionAndAnswer
+          classes={classes}
+          updateParentQuestion={updateQuestion}
+          updateParentAnswers={updateAnswers}
+          questionType={inputs.questionType}
+        />
+        <Button
+          className={classes.submitButton}
+          type="submit"
+          variant="contained"
+          color="primary"
         >
-          {standards.map(standard => {
-            return (
-              <MenuItem
-                className={classes.menuItem}
-                key={standard.id}
-                value={standard.id}
-              >
-                {standard.name}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <FormControl
-        className={`${classes.formControl} ${classes.wideFormControl}`}
-      >
-        <TagsForm updateTags={updateTags} />
-      </FormControl>
-      <QuestionAndAnswer
-        classes={classes}
-        updateParentQuestion={updateQuestion}
-        updateParentAnswers={updateAnswers}
-        questionType={inputs.questionType}
-      />
-      <Button
-        className={classes.submitButton}
-        type="submit"
-        variant="contained"
-        color="primary"
-      >
-        Submit
-      </Button>
-    </form>
+          Submit
+        </Button>
+      </form>
+    </Card>
   );
 };
 
