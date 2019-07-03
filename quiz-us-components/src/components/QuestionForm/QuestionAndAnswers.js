@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import crypto from 'crypto';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import { RichTextEditor } from '../../index';
 
-const LETTER_CHOICE = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+
+const generateAnswerId = () => crypto.randomBytes(20).toString('hex');
 
 const QuestionAndAnswer = ({
   questionType,
@@ -11,17 +14,22 @@ const QuestionAndAnswer = ({
   updateParentAnswers,
   classes
 }) => {
-  const [answers, updateAnswers] = useState([undefined]);
+  const [answers, updateAnswers] = useState([
+    { value: undefined, answerId: generateAnswerId() }
+  ]);
   const updateAllAnswers = index => {
     return updatedVal => {
       const updated = [...answers];
-      updated[index] = updatedVal;
+      updated[index].value = updatedVal;
       updateAnswers(updated);
     };
   };
   const addAnswerChoice = e => {
     e.preventDefault();
-    const updated = [...answers, undefined];
+    const updated = [
+      ...answers,
+      { value: undefined, answerId: generateAnswerId() }
+    ];
     updateAnswers(updated);
   };
 
@@ -31,29 +39,39 @@ const QuestionAndAnswer = ({
       const updated = answers.filter((answer, i) => {
         return index !== i;
       });
-      console.log(updated);
       updateAnswers(updated);
     };
   };
   const answer = () => {
     if (questionType === 'Multiple Choice') {
-      return answers.map((value, i) => {
-        return (
-          <div>
-            {LETTER_CHOICE[i]}.
-            <RichTextEditor
-              initialValue={value}
-              updateParentState={updateAllAnswers(i)}
-            />
-            <button onClick={addAnswerChoice}>add</button>
-            <button onClick={deleteAnswerChoice(i)}>delete</button>
-          </div>
-        );
-      });
+      return (
+        <React.Fragment>
+          {answers.map(({ value, answerId }, i) => {
+            if (i > 25) {
+              throw Error(
+                "You've added more answer choices than the allowed amount of 26!"
+              );
+            }
+            return (
+              <div key={answerId}>
+                {ALPHABET[i]}.
+                <RichTextEditor
+                  initialValue={value}
+                  updateParentState={updateAllAnswers(i)}
+                  key={answerId} // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
+                />
+                <button onClick={deleteAnswerChoice(i)}>delete</button>
+              </div>
+            );
+          })}
+          <button onClick={addAnswerChoice}>add</button>
+        </React.Fragment>
+      );
     }
-    return answers.map((value, i) => {
+    return answers.map(({ value, answerId }, i) => {
       return (
         <RichTextEditor
+          key={answerId}
           initialValue={value}
           updateParentState={updateAllAnswers(i)}
         />
