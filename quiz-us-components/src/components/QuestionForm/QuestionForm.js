@@ -27,6 +27,10 @@ const useStyles = makeStyles({
   questionAnswerContainer: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  submitButton: {
+    width: '40%',
+    margin: '0 auto'
   }
 });
 
@@ -144,7 +148,12 @@ const QuestionForm = ({ standards, questionTypes }) => {
         updateParentAnswers={updateAnswers}
         questionType={inputs.questionType}
       />
-      <Button type="submit" variant="contained" className={classes.button}>
+      <Button
+        className={classes.submitButton}
+        type="submit"
+        variant="contained"
+        color="primary"
+      >
         Submit
       </Button>
     </form>

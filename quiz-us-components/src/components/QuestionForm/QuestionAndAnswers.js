@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import crypto from 'crypto';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
@@ -56,16 +59,20 @@ const QuestionAndAnswer = ({
             return (
               <div key={answerId}>
                 {ALPHABET[i]}.
+                <IconButton onClick={deleteAnswerChoice(i)}>
+                  <DeleteIcon />
+                </IconButton>
                 <RichTextEditor
                   initialValue={value}
                   updateParentState={updateAllAnswers(i)}
                   key={answerId} // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
                 />
-                <button onClick={deleteAnswerChoice(i)}>delete</button>
               </div>
             );
           })}
-          <button onClick={addAnswerChoice}>add</button>
+          <IconButton onClick={addAnswerChoice}>
+            <AddCircleIcon />
+          </IconButton>
         </React.Fragment>
       );
     }
