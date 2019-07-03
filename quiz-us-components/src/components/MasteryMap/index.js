@@ -14,6 +14,7 @@ import Switch from '@material-ui/core/Switch';
 import EnhancedTableHead from './components/TableHead';
 import { stableSort, getSorting } from "../MasteryMap/utils";
 import EnhancedTableToolbar from './components/EnhancedTableToolbar';
+import StandardDisplayColor from './components/StandardDisplayColor';
 
 //key name needs to be the same as the readrows id
 function createData(id, lastname, firstname, standard1, standard2, standard3, standard4) {
@@ -33,11 +34,43 @@ const rows = [
 const headRows = [
   { id: 'lastname', numeric: false, disablePadding: false, label: 'Last' },
   { id: 'firstname', numeric: false, disablePadding: false, label: 'First' },
-  { id: 'standard1', numeric: true, disablePadding: false, label: 'Standard1' },
-  { id: 'standard2', numeric: true, disablePadding: false, label: 'Standard2' },
-  { id: 'standard3', numeric: true, disablePadding: false, label: 'Standard3' },
-  { id: 'standard4', numeric: true, disablePadding: false, label: 'Standard4' },
+  { id: 'standard1', numeric: true, disablePadding: true, label: 'Standard1' },
+  { id: 'standard2', numeric: true, disablePadding: true, label: 'Standard2' },
+  { id: 'standard3', numeric: true, disablePadding: true, label: 'Standard3' },
+  { id: 'standard4', numeric: true, disablePadding: true, label: 'Standard4' },
 ];
+
+// const headRows = () => {
+//   const ans = [];
+//   rows.forEach(rowObj => {
+//     let temp;
+
+//     Object.keys(rowObj).forEach(key => {
+//       const value = rowObj[key];
+//       // console.log("key", key, "value", value);
+//       // if (key === 'id') { continue; }
+//       if (key === 'lastname' || key === 'firstname') {
+//          temp = {
+//            id: key,
+//            numeric: false,
+//            disablePadding: false,
+//            label: key
+//          };
+//         // console.log("temp", temp);
+//       } else {
+//         temp = {
+//           id: key,
+//           numeric: true,
+//           disablePadding: false,
+//           label: key
+//         };
+//       }
+//       ans.push(temp);
+//     })
+//   });
+
+//   return ans;
+// }
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,7 +79,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(),
   },
   table: {
     minWidth: 750,
@@ -56,104 +89,113 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function EnhancedTable() {
-    const classes = useStyles();
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('name');
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(true);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+export default function MasteryMap() {
+  const classes = useStyles();
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('name');
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(true);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    function handleRequestSort(event, property) {
-      console.log(event, property);
-      const isDesc = orderBy === property && order === 'desc';
-      setOrder(isDesc ? 'asc' : 'desc');
-      setOrderBy(property);
-    }
-    function handleChangePage(event, newPage) {
-      setPage(newPage);
-    }
+  function handleRequestSort(event, property) {
+    const isDesc = orderBy === property && order === 'desc';
+    setOrder(isDesc ? 'asc' : 'desc');
+    setOrderBy(property);
+  }
+  function handleChangePage(event, newPage) {
+    setPage(newPage);
+  }
 
-    function handleChangeRowsPerPage(event) {
-      setRowsPerPage(+event.target.value);
-    }
+  function handleChangeRowsPerPage(event) {
+    setRowsPerPage(+event.target.value);
+  }
 
-    function handleChangeDense(event) {
-      setDense(event.target.checked);
-    }
+  function handleChangeDense(event) {
+    setDense(event.target.checked);
+  }
 
-    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // headRows1();
 
-    return (
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <EnhancedTableToolbar />
-          <div className={classes.tableWrapper}>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
-            >
-              <EnhancedTableHead
-                  headRows={headRows}
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
-              />
-                <TableBody>
-                  {stableSort(rows, getSorting(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
-                      return (
-                          <TableRow
-                              hover
-                              tabIndex={-1}
-                              key={row.id}
-                          >
-                            {Object.keys(row).map((el,i) => {
-                              if (i === 0) return;
-                              if (i === 1 || i === 2) {
-                                return <TableCell component="th" id={labelId} scope="row">
-                                  {row[el]}
-                                </TableCell>
-                              } else {
-                                return <TableCell align="right">{row[el]}</TableCell>
-                              }
-                            })}
-                          </TableRow>
-                      );
-                  })}
-                  {/* if you want the mastery map to be the same size when there are less rows */}
-                  {/* {emptyRows > 0 && (
-                    <TableRow style={{ height: 49 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )} */}
-                </TableBody>
-              </Table>
-          </div>
-          <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              backIconButtonProps={{
-                  'aria-label': 'Previous Page',
-              }}
-              nextIconButtonProps={{
-                  'aria-label': 'Next Page',
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Paper>
-        <FormControlLabel
-            control={<Switch checked={dense} onChange={handleChangeDense} />}
-            label="Dense padding"
+  const formatedRows = stableSort(rows, getSorting(order, orderBy))
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .map((row, index) => {
+      const labelId = `enhanced-table-checkbox-${index}`;
+      return (
+        <TableRow
+          key={row.id}
+          hover
+          tabIndex={-1}
+        >
+          {Object.keys(row).map((el, i) => {
+            //id 
+            if (i === 0) return; 
+            
+            //first name and last name
+            if (i === 1 || i === 2) {
+              return <TableCell component="th" id={labelId} scope="row">
+                {row[el]}
+              </TableCell>
+            } else {
+              return (<TableCell align="right">
+                <StandardDisplayColor score={row[el]}/>
+              </TableCell>)
+            }
+          })}
+        </TableRow>
+      );
+    });
+                  
+  // // if you want the mastery map to be the same size when there are less rows
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const formatedEmptyRows = emptyRows > 0 && (
+  //   <TableRow style={{ height: 49 * emptyRows }}>
+  //     <TableCell colSpan={6} />
+  //   </TableRow>
+  // )
+
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <EnhancedTableToolbar />
+        <div className={classes.tableWrapper}>
+          <Table
+            aria-labelledby="tableTitle"
+            className={classes.table}
+            size={dense ? 'small' : 'medium'}
+            padding={'none'}
+          >
+            <EnhancedTableHead
+              headRows={headRows}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+              <TableBody>
+                {formatedRows}
+              </TableBody>
+            </Table>
+        </div>
+        <TablePagination
+          backIconButtonProps={{
+              'aria-label': 'Previous Page',
+          }}
+          component="div"
+          count={rows.length}
+          nextIconButtonProps={{
+            'aria-label': 'Next Page',
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
         />
-      </div>
-    );
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
+    </div>
+  );
 }

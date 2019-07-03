@@ -8,5 +8,4 @@ export default () => {
   storiesOf('MasteryMap', module)
     .addDecorator(withReadme(Readme))
     .add('MasteryMap', () => <MasteryMap />);
-
 };

@@ -11,8 +11,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 
 const useToolbarStyles = makeStyles(theme => ({
     root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
+        paddingLeft: theme.spacing(0),
+        paddingRight: theme.spacing(0),
     },
     highlight:
         theme.palette.type === 'light'
@@ -25,7 +25,7 @@ const useToolbarStyles = makeStyles(theme => ({
                 backgroundColor: theme.palette.secondary.dark,
             },
     spacer: {
-        flex: '1 1 100%',
+        flex: '0 0 100%',
     },
     actions: {
         color: theme.palette.text.secondary,
