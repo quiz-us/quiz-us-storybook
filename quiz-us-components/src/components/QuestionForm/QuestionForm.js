@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TagsForm from './TagsForm';
 import useForm from '../../hooks/useForm';
-import QuestionAndAnswer from './QuestionAndAnswers';
+import QuestionAndAnswers from './QuestionAndAnswers';
 
 const useStyles = makeStyles({
   form: {
@@ -144,7 +144,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
         >
           <TagsForm updateTags={updateTags} />
         </FormControl>
-        <QuestionAndAnswer
+        <QuestionAndAnswers
           classes={classes}
           updateParentQuestion={updateQuestion}
           updateParentAnswers={updateAnswers}
