@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  cleanup,
-  waitForElement
-} from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import QuestionForm from './QuestionForm';
 
 // mock QuestionAndAnswers component because the RichTextEditor
@@ -34,12 +29,13 @@ jest.mock(
 
 describe('<QuestionForm />', () => {
   const questionTypes = ['Multiple Choice', 'Free Response'];
-  const { getByTestId, getByText, debug } = render(
+  const { getByTestId, getByText } = render(
     <QuestionForm
       standards={[{ id: 1, name: '1' }, { id: 2, name: '2' }]}
       questionTypes={questionTypes}
     />
   );
+  afterAll(cleanup);
   test('can choose a question type', async () => {
     questionTypes.forEach(questionType => {
       fireEvent.change(getByTestId('questionType-select'), {

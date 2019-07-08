@@ -1,16 +1,22 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 import QuestionMultipleChoice from './QuestionMultipleChoice';
 
 describe('<QuestionMultipleChoice />', () => {
-  it('renders the correct quantity of answers that are passed in', () => {
+  afterEach(cleanup);
+  test('renders the answer choices that are passed in', () => {
     const component = (
       <QuestionMultipleChoice
         question="What?"
-        answers={[{ text: 'yes' }, { text: 'no' }]}
+        answers={[
+          { text: 'First Multiple Choice' },
+          { text: 'Second Multiple Choice' }
+        ]}
       />
     );
-    const wrapper = shallow(component);
-    expect(wrapper.find('Answer').length).toBe(2);
+    const { getByText } = render(component);
+
+    expect(getByText('First Multiple Choice')).toBeTruthy();
+    expect(getByText('Second Multiple Choice')).toBeTruthy();
   });
 });
