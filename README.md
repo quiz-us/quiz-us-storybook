@@ -95,3 +95,19 @@ To publish the new components, run `npm run publish-components`. This command do
 
 Any time a branch gets merged into master, CircleCI will deploy the new version
 of Quiz Us' storybook. The storybook can be accessed [here](http://storybook-quizus.s3-website-us-west-2.amazonaws.com).
+
+## Testing
+
+Components are tested using
+[React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
+
+The general principle that React Testing Library follows is to mimic the
+behavior of the end user as much as possible. This means that when testing for
+the existence of an element, try to select that element using properties that an
+end user would be able to see, such as a label text, rather than meta-properties
+like html tags or properties. Visit [here](https://testing-library.com/docs/guiding-principles)
+for a more in-depth breakdown of React Testing Libray's principles and
+philosophy.
+
+You can also read more about the
+[process behind choosing queries when testing components](https://testing-library.com/docs/guide-which-query).
