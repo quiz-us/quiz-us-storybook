@@ -9,31 +9,15 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-
-      - run: npm ci
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-
-      - restore_cache:
-          key: dependency-cache{{ checksum "quiz-us-components/package.json" }}
-
-      - run: cd quiz-us-components && npm ci && cd ..
-
-      - save_cache:
-          key: dependency-cache{{ checksum "quiz-us-components/package.json" }}
-          paths:
-            - quiz-us-components/node_modules
-
+      - run:
+          name: Install Outer Dependencies
+          command: npm ci
+      - run:
+          name: Install Inner Dependencies
+          command: cd quiz-us-components && npm ci && cd ..
       - run:
           name: Run Jest Tests
           command: npm test
-
   deploy:
     working_directory: ~/repo
     docker:
