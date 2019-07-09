@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 
 const generateAnswerId = () => crypto.randomBytes(20).toString('hex');
 
-const QuestionAndAnswer = ({
+const QuestionAndAnswers = ({
   questionType,
   updateParentQuestion,
   updateParentAnswers,
@@ -117,11 +117,11 @@ const QuestionAndAnswer = ({
   );
 };
 
-QuestionAndAnswer.propTypes = {
+QuestionAndAnswers.propTypes = {
   questionType: PropTypes.string.isRequired,
   updateParentQuestion: PropTypes.func.isRequired,
   updateParentAnswers: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 };
 
-export default QuestionAndAnswer;
+export default QuestionAndAnswers;

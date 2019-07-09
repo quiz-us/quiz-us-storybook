@@ -3,11 +3,11 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import TagsForm from './TagsForm';
 
 describe('<TagsForm/>', () => {
-  let getByPlaceholderText, getByText;
+  let getByPlaceholderText, getByText, debug;
   const mockUpdateTags = jest.fn();
   beforeEach(() => {
     const component = <TagsForm updateTags={mockUpdateTags} />;
-    ({ getByPlaceholderText, getByText } = render(component));
+    ({ getByPlaceholderText, getByText, debug } = render(component));
   });
   afterEach(cleanup);
 
@@ -18,6 +18,16 @@ describe('<TagsForm/>', () => {
       }
     });
     expect(getByText('American Samoa')).toBeTruthy();
+  });
+
+  test('calls updateTags when input is chosen', () => {
+    fireEvent.change(getByPlaceholderText('Select one or more tag(s)'), {
+      target: {
+        value: 'a'
+      }
+    });
+    fireEvent.click(getByText('American Samoa'));
+    expect(mockUpdateTags).toHaveBeenCalledWith(['American Samoa']);
   });
 
   /**
