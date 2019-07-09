@@ -20,6 +20,16 @@ jobs:
           paths:
             - node_modules
 
+      - restore_cache:
+          key: dependency-cache{{ checksum "quiz-us-components/package.json" }}
+
+      - run: cd quiz-us-components && npm ci && cd ..
+
+      - save_cache:
+          key: dependency-cache{{ checksum "quiz-us-components/package.json" }}
+          paths:
+            - quiz-us-components/node_modules
+
       - run:
           name: Run Jest Tests
           command: npm test
