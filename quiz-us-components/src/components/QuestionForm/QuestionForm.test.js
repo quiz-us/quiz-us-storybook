@@ -17,9 +17,9 @@ jest.mock(
     }
     return (
       <select data-testid={inputProps.id} value={value} onChange={handleChange}>
-        {children.map(({ props: { value } }) => (
+        {children.map(({ props: { children, value } }) => (
           <option key={value} value={value}>
-            {value}
+            {children}
           </option>
         ))}
       </select>
@@ -29,11 +29,12 @@ jest.mock(
 
 describe('<QuestionForm />', () => {
   const questionTypes = ['Multiple Choice', 'Free Response'];
+  const standards = [
+    { id: 1, name: 'Standard 1' },
+    { id: 2, name: 'Standard 2' }
+  ];
   const { getByTestId, getByText } = render(
-    <QuestionForm
-      standards={[{ id: 1, name: '1' }, { id: 2, name: '2' }]}
-      questionTypes={questionTypes}
-    />
+    <QuestionForm standards={standards} questionTypes={questionTypes} />
   );
   afterAll(cleanup);
   test('can choose a question type', async () => {
@@ -42,6 +43,15 @@ describe('<QuestionForm />', () => {
         target: { name: 'questionType', value: questionType }
       });
       expect(getByText(questionType)).toBeTruthy();
+    });
+  });
+
+  test('can choose a standard', async () => {
+    standards.forEach(({ name, id }) => {
+      fireEvent.change(getByTestId('standard-select'), {
+        target: { name: 'standard', value: id }
+      });
+      expect(getByText(name)).toBeTruthy();
     });
   });
 });
