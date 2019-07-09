@@ -10,11 +10,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Outer Dependencies
-          command: npm ci
-      - run:
-          name: Install Inner Dependencies
-          command: cd quiz-us-components && npm ci && cd ..
+          name: Install Dependencies
+          command: sh scripts/setUpTest.sh
       - run:
           name: Run Jest Tests
           command: npm test
