@@ -46,7 +46,7 @@ const useSelectStyles = makeStyles({
   }
 });
 
-const QuestionForm = ({ standards, questionTypes }) => {
+const QuestionForm = ({ standards, questionTypes, onSubmit, fetchTags }) => {
   const classes = useStyles();
   const selectClasses = useSelectStyles();
   const { inputs, handleInputChange } = useForm({
@@ -83,14 +83,14 @@ const QuestionForm = ({ standards, questionTypes }) => {
     });
   };
 
-  const onSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    console.log(inputs);
+    onSubmit(inputs);
   };
 
   return (
     <Card>
-      <form className={classes.form} onSubmit={onSubmit}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="questionType-select">
             Select Question Type
@@ -142,7 +142,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
         <FormControl
           className={`${classes.formControl} ${classes.wideFormControl}`}
         >
-          <TagsForm updateTags={updateTags} />
+          <TagsForm updateTags={updateTags} fetchTags={fetchTags} />
         </FormControl>
         <QuestionAndAnswers
           classes={classes}
@@ -155,6 +155,7 @@ const QuestionForm = ({ standards, questionTypes }) => {
           type="submit"
           variant="contained"
           color="primary"
+          data-testid="submit-button"
         >
           Submit
         </Button>
@@ -170,7 +171,9 @@ QuestionForm.propTypes = {
       id: PropTypes.number.isRequired
     })
   ),
-  questionTypes: PropTypes.arrayOf(PropTypes.string.isRequired)
+  questionTypes: PropTypes.arrayOf(PropTypes.string.isRequired),
+  onSubmit: PropTypes.func.isRequired,
+  fetchTags: PropTypes.func.isRequired
 };
 
 export default QuestionForm;

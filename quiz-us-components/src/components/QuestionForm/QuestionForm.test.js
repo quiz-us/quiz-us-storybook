@@ -33,8 +33,13 @@ describe('<QuestionForm />', () => {
     { id: 1, name: 'Standard 1' },
     { id: 2, name: 'Standard 2' }
   ];
+  const onSubmit = jest.fn();
   const { getByTestId, getByText } = render(
-    <QuestionForm standards={standards} questionTypes={questionTypes} />
+    <QuestionForm
+      onSubmit={onSubmit}
+      standards={standards}
+      questionTypes={questionTypes}
+    />
   );
   afterAll(cleanup);
   test('can choose a question type', async () => {
@@ -53,5 +58,10 @@ describe('<QuestionForm />', () => {
       });
       expect(getByText(name)).toBeTruthy();
     });
+  });
+
+  test('calls onSubmit when submitting', () => {
+    fireEvent.click(getByTestId('submit-button'));
+    expect(onSubmit).toHaveBeenCalled();
   });
 });

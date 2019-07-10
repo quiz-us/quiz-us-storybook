@@ -8,43 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-];
-
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
 
@@ -96,30 +59,11 @@ renderSuggestion.propTypes = {
   suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired
 };
 
-function getSuggestions(value, { showEmpty = false } = {}) {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0 && !showEmpty
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 &&
-          suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-
-        if (keep) {
-          count += 1;
-        }
-
-        return keep;
-      });
-}
-
 function DownshiftMultiple(props) {
-  const { classes, updateTags } = props;
+  const { classes, updateTags, fetchTags } = props;
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState([]);
+  const [suggestions, setSuggestions] = React.useState([]);
   function handleKeyDown(event) {
     if (
       selectedItem.length &&
@@ -130,8 +74,17 @@ function DownshiftMultiple(props) {
     }
   }
 
+  function getSuggestions(input) {
+    const inputValue = input.trim().toLowerCase();
+    fetchTags(inputValue).then(tags => {
+      setSuggestions(tags);
+    });
+  }
+
   function handleInputChange(event) {
-    setInputValue(event.target.value);
+    const input = event.target.value;
+    setInputValue(input);
+    getSuggestions(input);
   }
 
   function handleChange(item) {
@@ -163,7 +116,6 @@ function DownshiftMultiple(props) {
         getItemProps,
         getLabelProps,
         isOpen,
-        inputValue: inputValue2,
         selectedItem: selectedItem2,
         highlightedIndex
       }) => {
@@ -201,7 +153,7 @@ function DownshiftMultiple(props) {
 
             {isOpen ? (
               <Paper className={classes.paper} square>
-                {getSuggestions(inputValue2).map((suggestion, index) =>
+                {suggestions.map((suggestion, index) =>
                   renderSuggestion({
                     suggestion,
                     index,
@@ -256,16 +208,21 @@ const useStyles = makeStyles(theme => ({
 
 const TagForm = props => {
   const classes = useStyles();
-  const { updateTags } = props;
+  const { updateTags, fetchTags } = props;
   return (
     <div className={classes.root}>
-      <DownshiftMultiple classes={classes} updateTags={updateTags} />
+      <DownshiftMultiple
+        classes={classes}
+        updateTags={updateTags}
+        fetchTags={fetchTags}
+      />
     </div>
   );
 };
 
 TagForm.propTypes = {
-  updateTags: PropTypes.func.isRequired
+  updateTags: PropTypes.func.isRequired,
+  fetchTags: PropTypes.func.isRequired
 };
 
 export default TagForm;
