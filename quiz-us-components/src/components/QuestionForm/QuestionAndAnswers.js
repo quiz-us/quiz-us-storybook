@@ -68,7 +68,10 @@ const QuestionAndAnswers = ({
             return (
               <div key={answerId}>
                 {ALPHABET[i]}.
-                <IconButton onClick={deleteAnswerChoice(i)}>
+                <IconButton
+                  onClick={deleteAnswerChoice(i)}
+                  title="delete answer"
+                >
                   <DeleteIcon />
                 </IconButton>
                 <RichTextEditor
@@ -82,6 +85,7 @@ const QuestionAndAnswers = ({
           <IconButton
             color="secondary"
             onClick={addAnswerChoice}
+            title="add answer"
             className={componentClasses.addButton}
           >
             <AddCircleIcon />

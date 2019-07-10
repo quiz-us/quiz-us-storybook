@@ -105,9 +105,11 @@ The general principle that React Testing Library follows is to mimic the
 behavior of the end user as much as possible. This means that when testing for
 the existence of an element, try to select that element using properties that an
 end user would be able to see, such as a label text, rather than meta-properties
-like html tags or properties. Visit [here](https://testing-library.com/docs/guiding-principles)
-for a more in-depth breakdown of React Testing Libray's principles and
-philosophy.
+like html tags or properties.
 
-You can also read more about the
-[process behind choosing queries when testing components](https://testing-library.com/docs/guide-which-query).
+### Important React Testing Library resources
+
+- [Intro to React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+- [React Testing Library Guiding Principles](https://testing-library.com/docs/guiding-principles)
+- [Cheatsheet](https://testing-library.com/docs/react-testing-library/cheatsheet)
+- [Choosing the correct queries](https://testing-library.com/docs/guide-which-query)
