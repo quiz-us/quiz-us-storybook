@@ -1,32 +1,48 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitForElement,
+  act
+} from '@testing-library/react';
 import TagsForm from './TagsForm';
 
 describe('<TagsForm/>', () => {
-  let getByPlaceholderText, getByText, debug;
+  let getByPlaceholderText, getByText;
   const mockUpdateTags = jest.fn();
+  const mockFetchTags = jest
+    .fn()
+    .mockResolvedValue([{ label: 'American Samoa' }]);
   beforeEach(() => {
-    const component = <TagsForm updateTags={mockUpdateTags} />;
-    ({ getByPlaceholderText, getByText, debug } = render(component));
+    const component = (
+      <TagsForm updateTags={mockUpdateTags} fetchTags={mockFetchTags} />
+    );
+    ({ getByPlaceholderText, getByText } = render(component));
   });
   afterEach(cleanup);
 
-  test('autosuggests options based on input', () => {
+  test('autosuggests options based on input', async () => {
+    // currently console logging warnings about using `act` because mock
+    // function resolves a Promise. It seems that the fix is to wait for
+    // React 16.9.0: https://github.com/testing-library/react-testing-library/issues/281
     fireEvent.change(getByPlaceholderText('Select one or more tag(s)'), {
       target: {
         value: 'a'
       }
     });
-    expect(getByText('American Samoa')).toBeTruthy();
+    const option = await waitForElement(() => getByText('American Samoa'));
+    expect(option).toBeTruthy();
   });
 
-  test('calls updateTags when input is chosen', () => {
+  test('calls updateTags when input is chosen', async () => {
     fireEvent.change(getByPlaceholderText('Select one or more tag(s)'), {
       target: {
         value: 'a'
       }
     });
-    fireEvent.click(getByText('American Samoa'));
+    const option = await waitForElement(() => getByText('American Samoa'));
+    fireEvent.click(option);
     expect(mockUpdateTags).toHaveBeenCalledWith(['American Samoa']);
   });
 

@@ -34,11 +34,13 @@ describe('<QuestionForm />', () => {
     { id: 2, name: 'Standard 2' }
   ];
   const onSubmit = jest.fn();
+  const fetchTags = jest.fn();
   const { getByTestId, getByText } = render(
     <QuestionForm
       onSubmit={onSubmit}
       standards={standards}
       questionTypes={questionTypes}
+      fetchTags={fetchTags}
     />
   );
   afterAll(cleanup);
