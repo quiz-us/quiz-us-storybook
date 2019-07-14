@@ -121,7 +121,7 @@ function DownshiftMultiple(props) {
       }) => {
         const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
           onKeyDown: handleKeyDown,
-          placeholder: 'Select one or more tag(s)'
+          placeholder: 'Add one or more tag(s)'
         });
 
         return (

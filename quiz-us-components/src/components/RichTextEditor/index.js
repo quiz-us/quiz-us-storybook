@@ -15,6 +15,7 @@ import { isKeyHotkey } from 'is-hotkey';
 import { Button, Toolbar } from './components';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import Plain from 'slate-plain-serializer';
 
 const styles = {
   root: {
@@ -394,24 +395,7 @@ RichTextEditor.propTypes = {
 };
 
 RichTextEditor.defaultProps = {
-  initialValue: {
-    object: 'value',
-    document: {
-      object: 'document',
-      nodes: [
-        {
-          object: 'block',
-          type: 'paragraph',
-          nodes: [
-            {
-              object: 'text',
-              text: ''
-            }
-          ]
-        }
-      ]
-    }
-  },
+  initialValue: Plain.deserialize(''),
   placeholder: 'Write here...'
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
@@ -6,10 +6,15 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import TagsForm from './TagsForm';
 import useForm from '../../hooks/useForm';
 import QuestionAndAnswers from './QuestionAndAnswers';
+import Plain from 'slate-plain-serializer';
+import empty from 'is-empty';
 
 const useStyles = makeStyles({
   form: {
@@ -56,6 +61,8 @@ const QuestionForm = ({ standards, questionTypes, onSubmit, fetchTags }) => {
     question: {},
     answers: []
   });
+  const [missingFields, updateMissingFields] = useState(false);
+
   const updateTags = tags => {
     handleInputChange({
       target: {
@@ -83,9 +90,43 @@ const QuestionForm = ({ standards, questionTypes, onSubmit, fetchTags }) => {
     });
   };
 
+  const closeEmptyFieldsWarning = () => {
+    updateMissingFields(false);
+  };
+
+  const validateAnswers = answers => {
+    /**
+     * @todo: write answers validation:
+     * 1. if it's multiple choice there needs to be more than 1 choice
+     * 2. no empty string choices
+     * */
+  };
+
+  const validateForm = () => {
+    const inputKeys = Object.keys(inputs);
+    for (let i = 0; i < inputKeys.length; i += 1) {
+      const inputKey = inputKeys[i];
+      let inputVal = inputs[inputKey];
+      if (inputKey === 'question') {
+        inputVal = Plain.serialize(inputVal);
+      } else if (inputKey === 'answers') {
+        /** @todo: */
+        // validateAnswers(inputVal)
+      }
+      if (empty(inputVal)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit(inputs);
+    if (validateForm()) {
+      onSubmit(inputs);
+    } else {
+      updateMissingFields(true);
+    }
   };
 
   return (
@@ -160,6 +201,14 @@ const QuestionForm = ({ standards, questionTypes, onSubmit, fetchTags }) => {
           Submit
         </Button>
       </form>
+      <Dialog open={missingFields} onClose={closeEmptyFieldsWarning}>
+        <DialogTitle>Please fill out all fields!</DialogTitle>
+        <DialogActions>
+          <Button onClick={closeEmptyFieldsWarning} color="primary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

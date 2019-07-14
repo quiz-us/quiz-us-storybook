@@ -17,6 +17,7 @@
   "dependencies": {
     "downshift": "^3.2.10",
     "immutable": "^4.0.0-rc.12",
+    "is-empty": "^1.2.0",
     "slate": "^0.47.4",
     "slate-react": "^0.22.4"
   },
