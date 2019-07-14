@@ -3,8 +3,7 @@ import {
   render,
   fireEvent,
   cleanup,
-  waitForElement,
-  act
+  waitForElement
 } from '@testing-library/react';
 import TagsForm from './TagsForm';
 

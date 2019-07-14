@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import QuestionAndAnswers from './QuestionAndAnswers';
-import { exportAllDeclaration } from '@babel/types';
 
 jest.mock('../../index', () => ({
   RichTextEditor: () => (
