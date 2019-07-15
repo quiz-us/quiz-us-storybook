@@ -110,10 +110,12 @@ const QuestionForm = ({ standards, questionTypes, onSubmit, fetchTags }) => {
       if (inputKey === 'question') {
         inputVal = Plain.serialize(inputVal);
       } else if (inputKey === 'answers') {
+        inputVal = true;
         /** @todo: */
         // validateAnswers(inputVal)
       }
       if (empty(inputVal)) {
+        console.error(`${inputKey} is unfilled!`);
         return false;
       }
     }

@@ -25,7 +25,7 @@ describe('<TagsForm/>', () => {
     // currently console logging warnings about using `act` because mock
     // function resolves a Promise. It seems that the fix is to wait for
     // React 16.9.0: https://github.com/testing-library/react-testing-library/issues/281
-    fireEvent.change(getByPlaceholderText('Select one or more tag(s)'), {
+    fireEvent.change(getByPlaceholderText('Add one or more tag(s)'), {
       target: {
         value: 'a'
       }
@@ -35,7 +35,7 @@ describe('<TagsForm/>', () => {
   });
 
   test('calls updateTags when input is chosen', async () => {
-    fireEvent.change(getByPlaceholderText('Select one or more tag(s)'), {
+    fireEvent.change(getByPlaceholderText('Add one or more tag(s)'), {
       target: {
         value: 'a'
       }
