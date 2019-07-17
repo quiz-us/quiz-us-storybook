@@ -5,3 +5,5 @@ export {
 export { default as RichTextEditor } from './components/RichTextEditor';
 
 export { default as QuizUsTheme } from './theme';
+
+export { default } from './components/DeckCreator';

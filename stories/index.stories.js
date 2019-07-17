@@ -1,7 +1,7 @@
 import Questions from './Questions';
 import RichTextEditor from './RichTextEditor';
-import CreateDeck from './CreateDeck';
+import DeckCreator from './DeckCreator';
 
 Questions(module);
 RichTextEditor(module);
-CreateDeck(module);
+DeckCreator(module);
