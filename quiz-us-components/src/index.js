@@ -1,3 +1,4 @@
+export { default as QuestionForm } from './components/QuestionForm';
 export {
   default as QuestionMultipleChoice
 } from './components/QuestionMultipleChoice';
