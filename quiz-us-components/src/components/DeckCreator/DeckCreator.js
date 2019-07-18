@@ -2,8 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import QuestionFilter from './QuestionFilter';
 
-const drawerWidth = 400;
+const drawerWidth = '40%';
 
 const useStyles = makeStyles({
   root: {
@@ -37,20 +38,17 @@ const useStyles = makeStyles({
   }
 });
 
-const DeckCreator = () => {
+const DeckCreator = ({ onQuery }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.parentContainer}>
         <div className={`${classes.container} ${classes.searchContainer}`}>
-          <h3>Question Filters</h3>
-          <div>standards filter</div>
-          <div>tags filter</div>
-          <div>question text filter</div>
+          <h3>Question Filter</h3>
+          <QuestionFilter onQuery={onQuery} />
         </div>
         <Divider />
         <div className={`${classes.container} ${classes.resultsContainer}`}>
-          <h3>Questions</h3>
           <div>all question results</div>
         </div>
       </div>
