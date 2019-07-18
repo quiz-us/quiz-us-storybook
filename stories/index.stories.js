@@ -2,7 +2,7 @@ import Questions from './Questions';
 import RichTextEditor from './RichTextEditor';
 import DeckCreator from './DeckCreator';
 import QuestionForm from './QuestionForm';
-import mockServer from './mockServer';
+import mockServer from './mock_server';
 
 mockServer();
 
