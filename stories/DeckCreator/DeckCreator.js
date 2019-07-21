@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const onQuery = async query => {
   const res = await axios.post('/search', query);
+  return res;
 };
 
 export default () => <DeckCreator onQuery={onQuery} />;

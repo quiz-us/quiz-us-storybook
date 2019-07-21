@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import QuestionFilter from './QuestionFilter';
-import Card from '@material-ui/core/Card';
+import Card from './Card';
 
 const drawerWidth = '40%';
 
@@ -43,8 +43,8 @@ const DeckCreator = ({ onQuery }) => {
   const classes = useStyles();
   const [cardsSearch, updateCardsSearch] = useState([]);
   const onFilterUpdate = async inputs => {
-    const results = await onQuery(inputs);
-    updateCardsSearch(results);
+    const { data } = await onQuery(inputs);
+    updateCardsSearch(data);
   };
   return (
     <div className={classes.root}>
@@ -55,9 +55,9 @@ const DeckCreator = ({ onQuery }) => {
         </div>
         <Divider />
         <div className={`${classes.container} ${classes.resultsContainer}`}>
-          <div>all question results</div>
+          <h3>Search Results</h3>
           {cardsSearch.map(card => {
-            return <div>{card.question}</div>;
+            return <Card key={card.id} card={card} />;
           })}
         </div>
       </div>

@@ -24,9 +24,9 @@ const QuestionFilter = ({ onFilterUpdate }) => {
         <InputLabel htmlFor="questionType-select">Standards</InputLabel>
         <Select
           value={inputs.standard}
-          onChange={() => {}}
+          onChange={handleInputChange}
           inputProps={{
-            name: 'questionType',
+            name: 'standard',
             id: 'questionType-select'
           }}
         >
@@ -44,7 +44,7 @@ const QuestionFilter = ({ onFilterUpdate }) => {
           id="standard-name"
           label="Tag"
           value={inputs.tag}
-          name="standard"
+          name="tag"
           onChange={handleInputChange}
           margin="normal"
         />
