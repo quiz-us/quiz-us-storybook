@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const QuestionFilter = ({ onQuery }) => {
+const QuestionFilter = ({ onFilterUpdate }) => {
   const { inputs, handleInputChange } = useForm({
     standard: '',
     tag: '',
@@ -16,7 +16,7 @@ const QuestionFilter = ({ onQuery }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    onQuery(inputs);
+    onFilterUpdate(inputs);
   };
   return (
     <form onSubmit={onSubmit}>
