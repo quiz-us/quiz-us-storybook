@@ -11,7 +11,7 @@ const CurrentDeck = ({ classes }) => {
       <h3>Current Deck</h3>
       {Object.keys(currentDeck).map(cardId => {
         const card = currentDeck[cardId];
-        return <Card key={`current-deck-${card.id}`} card={card} />;
+        return <Card removable key={`current-deck-${card.id}`} card={card} />;
       })}
     </div>
   );

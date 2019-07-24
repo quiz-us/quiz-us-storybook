@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   root: {
@@ -45,6 +46,17 @@ const useStyles = makeStyles({
   },
   resultsContainer: {},
   currentDeckContainer: {
+    borderLeft: '1px solid #E0E0E0'
+  },
+  footerActions: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    width: '100%'
+  },
+  footerAction: {
+    width: '50%',
+    borderRadius: 0,
     borderLeft: '1px solid #E0E0E0'
   }
 });
@@ -132,6 +144,22 @@ const DeckCreator = ({ onQuery }) => {
           </div>
           <CurrentDeck classes={classes} />
         </StyledCardContainers>
+        <div className={classes.footerActions}>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.footerAction}
+          >
+            Create New Question
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.footerAction}
+          >
+            Save Deck
+          </Button>
+        </div>
       </div>
     </CurrentDeckProvider>
   );

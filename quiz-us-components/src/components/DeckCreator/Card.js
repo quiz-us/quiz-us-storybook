@@ -8,6 +8,7 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/styles';
 import { CurrentDeckContext } from './CurrentDeckContext';
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
   }
 });
 
-const DeckCard = ({ card }) => {
+const DeckCard = ({ card, removable = null }) => {
   const { currentDeck, dispatch } = useContext(CurrentDeckContext);
   const { id, question, standard, tags, answer } = card;
   const classes = useStyles();
@@ -38,12 +39,14 @@ const DeckCard = ({ card }) => {
       // updatedCurrentDeck = Object.assign(currentDeck, { [id]: card });
     }
   };
-  const inCurrentDeck = currentDeck[id] ? true : false;
-  return (
-    <Card className={classes.root}>
-      <CardHeader title={question} subheader={`Standard: ${standard}`} />
-      <CardContent>
-        <div>{`Tags: ${tags.join(', ')}`} </div>
+
+  const removeFromCurrentDeck = () => {
+    dispatch({ type: 'removeFromCurrent', id });
+  };
+
+  const controls = () => {
+    if (!removable) {
+      return (
         <FormControlLabel
           control={
             <Switch
@@ -54,6 +57,25 @@ const DeckCard = ({ card }) => {
           }
           label="In Current Deck"
         />
+      );
+    }
+  };
+  const inCurrentDeck = currentDeck[id] ? true : false;
+  const action = removable ? (
+    <IconButton onClick={removeFromCurrentDeck}>
+      <DeleteIcon />
+    </IconButton>
+  ) : null;
+  return (
+    <Card className={classes.root}>
+      <CardHeader
+        action={action}
+        title={question}
+        subheader={`Standard: ${standard}`}
+      />
+      <CardContent>
+        <div>{`Tags: ${tags.join(', ')}`} </div>
+        {controls()}
       </CardContent>
       <CardActions className={classes.actions}>
         <IconButton
