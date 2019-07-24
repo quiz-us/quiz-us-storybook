@@ -1,6 +1,7 @@
 // list components in alphabetical order
 
 export { default as MasteryMap } from './components/MasteryMap';
+export { default as QuestionForm } from './components/QuestionForm';
 export {
   default as QuestionMultipleChoice
 } from './components/QuestionMultipleChoice';

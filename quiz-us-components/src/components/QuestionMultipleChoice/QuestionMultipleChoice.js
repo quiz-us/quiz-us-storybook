@@ -76,8 +76,12 @@ const QuestionMultipleChoice = ({ question, answers }) => {
               }
             >
               {text}
-              {answeredCorrect && <CheckCircleOutlineIcon />}
-              {answeredWrong && <HighlightOffIcon />}
+              {answeredCorrect && (
+                <CheckCircleOutlineIcon data-testid="correct-icon" />
+              )}
+              {answeredWrong && (
+                <HighlightOffIcon data-testid="incorrect-icon" />
+              )}
             </Answer>
           );
         })}

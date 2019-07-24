@@ -31,8 +31,7 @@ module.exports = {
   plugins: [
     resolve(),
     babel({
-      exclude: ['node_modules/**'],
-      presets: ['@babel/preset-env', '@babel/preset-react']
+      exclude: ['node_modules/**']
     }),
     commonjs()
   ]
