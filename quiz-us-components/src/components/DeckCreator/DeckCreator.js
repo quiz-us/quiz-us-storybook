@@ -16,7 +16,8 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
+    height: '100vh'
   },
   filtersContainer: {
     position: 'fixed',
@@ -29,13 +30,13 @@ const useStyles = makeStyles({
     padding: '20px'
   },
   placeholder: {
-    height: ({ placeholderHeight }) => `${placeholderHeight}px`,
+    height: ({ heights = {} }) => `${heights.placeholder}px`,
     width: '100%'
   },
   cardsContainer: {
     display: 'flex',
-    height: ({ placeholderHeight }) =>
-      `${window.innerHeight - placeholderHeight}px`
+    height: ({ heights = {} }) =>
+      `${heights.deckCreator - heights.placeholder}px`
   },
   bottomContainer: {
     padding: '0 20px',
@@ -67,10 +68,17 @@ const DeckCreator = ({ onQuery }) => {
   const [cardsSearch, updateCardsSearch] = useState([]);
   const [currentDeck, setCurrentDeck] = useState({});
   const [filterOpen, setFilterOpen] = useState(true);
-  const [placeholderHeight, setPlaceholderHeight] = useState(0);
+  const [heights, setHeights] = useState({
+    placeholder: 0,
+    deckCreator: 0
+  });
   const filtersContainerRef = useRef(null);
+  const deckCreatorRef = useRef(null);
   useLayoutEffect(() => {
-    setPlaceholderHeight(filtersContainerRef.current.clientHeight);
+    setHeights({
+      placeholder: filtersContainerRef.current.clientHeight,
+      deckCreator: deckCreatorRef.current.clientHeight
+    });
   }, [filterOpen]);
 
   const toggleFilterOpen = () => {
@@ -86,7 +94,7 @@ const DeckCreator = ({ onQuery }) => {
   };
   return (
     <CurrentDeckProvider>
-      <div className={classes.root}>
+      <div className={classes.root} ref={deckCreatorRef}>
         <AppBar ref={filtersContainerRef}>
           <Card>
             <CardHeader title="Question Filter" />
@@ -105,8 +113,8 @@ const DeckCreator = ({ onQuery }) => {
           </Card>
         </AppBar>
 
-        <StyledPlaceholder placeholderHeight={placeholderHeight} />
-        <StyledCardContainers placeholderHeight={placeholderHeight}>
+        <StyledPlaceholder heights={heights} />
+        <StyledCardContainers heights={heights}>
           <div
             className={`${classes.bottomContainer} ${classes.resultsContainer}`}
           >
