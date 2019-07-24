@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
+import { CurrentDeckContext } from './CurrentDeckContext';
 
 const useStyles = makeStyles({
   root: {
@@ -22,10 +23,22 @@ const useStyles = makeStyles({
   }
 });
 
-const DeckCard = ({ card: { question, standard, tags, answer } }) => {
+const DeckCard = ({ card }) => {
+  const { currentDeck, dispatch } = useContext(CurrentDeckContext);
+  const { id, question, standard, tags, answer } = card;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const actionText = expanded ? 'Hide Answer' : 'Show Answer';
+  const updateCurrentDeck = () => {
+    if (currentDeck[id]) {
+      dispatch({ type: 'removeFromCurrent', id });
+      // ({ [id]: _, ...updatedCurrentDeck } = currentDeck);
+    } else {
+      dispatch({ type: 'addToCurrent', card, id });
+      // updatedCurrentDeck = Object.assign(currentDeck, { [id]: card });
+    }
+  };
+  const inCurrentDeck = currentDeck[id] ? true : false;
   return (
     <Card className={classes.root}>
       <CardHeader title={question} subheader={`Standard: ${standard}`} />
@@ -34,9 +47,8 @@ const DeckCard = ({ card: { question, standard, tags, answer } }) => {
         <FormControlLabel
           control={
             <Switch
-              checked={true}
-              onChange={() => {}}
-              value="checkedB"
+              checked={inCurrentDeck}
+              onChange={updateCurrentDeck}
               color="primary"
             />
           }
