@@ -18,7 +18,6 @@ const CurrentDeckContext = React.createContext(initialState);
 function CurrentDeckProvider({ children }) {
   const [currentDeck, dispatch] = useReducer(reducer, initialState);
   return (
-    // new
     <CurrentDeckContext.Provider value={{ currentDeck, dispatch }}>
       {children}
     </CurrentDeckContext.Provider>
