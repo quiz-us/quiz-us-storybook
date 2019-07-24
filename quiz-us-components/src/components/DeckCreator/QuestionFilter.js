@@ -1,5 +1,6 @@
 import React from 'react';
 import useForm from '../../hooks/useForm';
+import { makeStyles } from '@material-ui/styles';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,7 +8,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+const useStyles = makeStyles({
+  submitContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '10px'
+  }
+});
+
 const QuestionFilter = ({ onFilterUpdate }) => {
+  const classes = useStyles();
   const { inputs, handleInputChange } = useForm({
     standard: '',
     tag: '',
@@ -59,9 +69,11 @@ const QuestionFilter = ({ onFilterUpdate }) => {
           margin="normal"
         />
       </FormControl>
-      <Button type="submit" variant="contained" color="primary">
-        Search
-      </Button>
+      <div className={classes.submitContainer}>
+        <Button type="submit" variant="contained" color="primary">
+          Search
+        </Button>
+      </div>
     </form>
   );
 };

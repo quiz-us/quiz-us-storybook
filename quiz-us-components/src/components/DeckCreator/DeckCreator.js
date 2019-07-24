@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Divider from '@material-ui/core/Divider';
 import QuestionFilter from './QuestionFilter';
 import Drawer from '@material-ui/core/Drawer';
 import Card from './Card';
@@ -25,7 +24,7 @@ const useStyles = makeStyles({
     display: 'flex'
   },
   bottomContainer: {
-    padding: '20px',
+    padding: '0 20px',
     width: '50%',
     overflow: 'scroll'
   },
