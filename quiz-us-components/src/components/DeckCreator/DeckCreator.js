@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import QuestionFilter from './QuestionFilter';
-import Drawer from '@material-ui/core/Drawer';
-import Card from './Card';
+import CustomCard from './Card';
 import { CurrentDeckProvider } from './CurrentDeckContext';
 import CurrentDeck from './CurrentDeck';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AppBar from '@material-ui/core/AppBar';
 
 const useStyles = makeStyles({
   root: {
@@ -12,16 +18,24 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     width: '100%'
   },
-  filtersContainer: {},
+  filtersContainer: {
+    position: 'fixed',
+    width: '100%'
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)'
+  },
   drawerPaper: {
     padding: '20px'
   },
   placeholder: {
-    height: ({ height }) => `${height}px`,
+    height: ({ placeholderHeight }) => `${placeholderHeight}px`,
     width: '100%'
   },
   cardsContainer: {
-    display: 'flex'
+    display: 'flex',
+    height: ({ placeholderHeight }) =>
+      `${window.innerHeight - placeholderHeight}px`
   },
   bottomContainer: {
     padding: '0 20px',
@@ -34,22 +48,34 @@ const useStyles = makeStyles({
   }
 });
 
-const Placeholder = props => {
+const StyledPlaceholder = props => {
   const classes = useStyles(props);
   return <div className={classes.placeholder} {...props} />;
+};
+
+const StyledCardContainers = props => {
+  const classes = useStyles(props);
+  return (
+    <div className={classes.cardsContainer} {...props}>
+      {props.children}
+    </div>
+  );
 };
 
 const DeckCreator = ({ onQuery }) => {
   const classes = useStyles();
   const [cardsSearch, updateCardsSearch] = useState([]);
   const [currentDeck, setCurrentDeck] = useState({});
-  const [filterOpen, toggleFilterOpen] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(true);
   const [placeholderHeight, setPlaceholderHeight] = useState(0);
   const filtersContainerRef = useRef(null);
-  useEffect(() => {
-    console.log(filtersContainerRef.current.clientHeight);
+  useLayoutEffect(() => {
     setPlaceholderHeight(filtersContainerRef.current.clientHeight);
-  });
+  }, [filterOpen]);
+
+  const toggleFilterOpen = () => {
+    setFilterOpen(!filterOpen);
+  };
 
   const handleCurrentDeckChange = updatedDeck => {
     setCurrentDeck(updatedDeck);
@@ -61,31 +87,33 @@ const DeckCreator = ({ onQuery }) => {
   return (
     <CurrentDeckProvider>
       <div className={classes.root}>
-        <Drawer
-          PaperProps={{
-            ref: filtersContainerRef
-          }}
-          className={classes.filtersContainer}
-          anchor="top"
-          open={filterOpen}
-          onClose={() => toggleFilterOpen(false)}
-          variant="persistent"
-          classes={{
-            paper: classes.drawerPaper
-          }}
-        >
-          <h3>Question Filter</h3>
-          <QuestionFilter onFilterUpdate={onFilterUpdate} />
-        </Drawer>
-        <Placeholder height={placeholderHeight} />
-        <div className={classes.cardsContainer}>
+        <AppBar ref={filtersContainerRef}>
+          <Card>
+            <CardHeader title="Question Filter" />
+            {filterOpen && (
+              <CardContent>
+                <QuestionFilter onFilterUpdate={onFilterUpdate} />
+              </CardContent>
+            )}
+            <CardActions className={classes.actions}>
+              <IconButton onClick={toggleFilterOpen}>
+                <ExpandMoreIcon
+                  className={filterOpen ? classes.expandOpen : ''}
+                />
+              </IconButton>
+            </CardActions>
+          </Card>
+        </AppBar>
+
+        <StyledPlaceholder placeholderHeight={placeholderHeight} />
+        <StyledCardContainers placeholderHeight={placeholderHeight}>
           <div
             className={`${classes.bottomContainer} ${classes.resultsContainer}`}
           >
             <h3>Search Results</h3>
             {cardsSearch.map(card => {
               return (
-                <Card
+                <CustomCard
                   key={`search-${card.id}`}
                   card={card}
                   currentDeck={currentDeck}
@@ -95,7 +123,7 @@ const DeckCreator = ({ onQuery }) => {
             })}
           </div>
           <CurrentDeck classes={classes} />
-        </div>
+        </StyledCardContainers>
       </div>
     </CurrentDeckProvider>
   );
