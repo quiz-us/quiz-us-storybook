@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactTable from 'react-table';
+import red from '@material-ui/core/colors/red';
+import amber from '@material-ui/core/colors/amber';
+import green from '@material-ui/core/colors/green';
 import 'react-table/react-table.css';
+
+// color logic:
+// low: lowest[high hue] -> less low[low hue]
+// med: lowest[high hue] -> less low[low hue]
+// high: lowest[low hue] -> higher[high hue]
 
 function createData(
   id,
@@ -15,19 +23,23 @@ function createData(
 }
 
 const data = [
-  createData(1, 'A', 'StudentA', null, 100, 110, 100),
+  createData(1, 'A', 'StudentA', null, 85, 87, 100),
   createData(2, 'B', 'StudentB', 80, 70, 20, 80),
-  createData(3, 'C', 'StudentC', 60, 20, 60, 90),
+  createData(3, 'C', 'StudentC', 60, 20, 60, 93),
   createData(4, 'D', 'StudentD', 100, 40, 50, 40),
   createData(5, 'E', 'StudentE', 20, 20, 70, 20),
   createData(6, 'F', 'StudentF', 0, 0, 0, 0)
 ];
 
+const hundredCeil = n => Math.ceil(n / 100) * 100;
+
 const calculateBackgroundColor = score => {
+  let scaledScore;
   if (!score && score !== 0) {
     return 'gray';
-  } else if (score > 85) {
-    return 'green';
+  } else if (score >= 85) {
+    scaledScore = (score - 85) * 60;
+    return green[hundredCeil(scaledScore)];
   } else if (score > 70) {
     return 'yellow';
   } else {
