@@ -2,24 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { QuestionForm } from '../../quiz-us-components/src';
 import axios from 'axios';
-import mock from 'xhr-mock';
 
-const suggestions = [
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-];
-
-mock.setup();
-mock.get(/.*\/tags\?.*/, (req, res) => {
-  return res.status(200).body(JSON.stringify(suggestions));
-});
 const useStyles = makeStyles({
   root: {
     margin: '20px',

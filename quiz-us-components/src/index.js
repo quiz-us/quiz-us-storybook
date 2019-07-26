@@ -7,3 +7,5 @@ export {
 } from './components/QuestionMultipleChoice';
 export { default as QuizUsTheme } from './theme';
 export { default as RichTextEditor } from './components/RichTextEditor';
+
+export { default } from './components/DeckCreator';
