@@ -8,19 +8,10 @@ import green from '@material-ui/core/colors/green';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import 'react-table/react-table.css';
 
-function createData(
-  id,
-  lastname,
-  firstname,
-  standard1,
-  standard2,
-  standard3,
-  standard4
-) {
+function createData(id, name, standard1, standard2, standard3, standard4) {
   return {
     id,
-    lastname,
-    firstname,
+    name,
     standard1,
     standard2,
     standard3,
@@ -29,12 +20,12 @@ function createData(
 }
 
 const data = [
-  createData(1, 'A', 'StudentA', null, 85, 87, 100),
-  createData(2, 'B', 'StudentB', 80, 70, 20, 80),
-  createData(3, 'C', 'StudentC', 60, 20, 60, 93),
-  createData(4, 'D', 'StudentD', 100, 40, 50, 40),
-  createData(5, 'E', 'StudentE', 20, 20, 76, 20),
-  createData(6, 'F', 'StudentF', 0, 0, 0, 0)
+  createData(1, 'Jane Doe', null, 85, 87, 100),
+  createData(2, 'John Doe', 80, 70, 20, 80),
+  createData(3, 'Elizabeth Holmes', 60, 20, 60, 93),
+  createData(4, 'Larry Page', 100, 40, 50, 40),
+  createData(5, 'Elon Musk', 20, 20, 76, 20),
+  createData(6, 'Steve Jobs', 0, 60, 75, 0)
 ];
 
 const calculateBackgroundColor = score => {
@@ -75,12 +66,9 @@ const ColoredCell = standard => (_, rowInfo) => {
 
 const columns = [
   {
-    Header: 'Last Name',
-    accessor: 'lastname' // String-based value accessors!
-  },
-  {
-    Header: 'First Name',
-    accessor: 'firstname'
+    Header: 'Name',
+    accessor: 'name',
+    filterable: true
   },
   {
     Header: 'Standard 1',
@@ -104,7 +92,7 @@ const columns = [
   }
 ];
 
-const MasteryMap = () => {
+const MasteryMap = ({ standards, studentData }) => {
   return <ReactTable data={data} columns={columns} />;
 };
 
