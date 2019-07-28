@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import red from '@material-ui/core/colors/red';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import orange from '@material-ui/core/colors/orange';
+import lime from '@material-ui/core/colors/lime';
 import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 import 'react-table/react-table.css';
-
-// color logic:
-// low: lowest[high hue] -> less low[low hue]
-// med: lowest[high hue] -> less low[low hue]
-// high: lowest[low hue] -> higher[high hue]
 
 function createData(
   id,
@@ -19,7 +17,15 @@ function createData(
   standard3,
   standard4
 ) {
-  return { lastname, firstname, standard1, standard2, standard3, standard4 };
+  return {
+    id,
+    lastname,
+    firstname,
+    standard1,
+    standard2,
+    standard3,
+    standard4
+  };
 }
 
 const data = [
@@ -27,23 +33,35 @@ const data = [
   createData(2, 'B', 'StudentB', 80, 70, 20, 80),
   createData(3, 'C', 'StudentC', 60, 20, 60, 93),
   createData(4, 'D', 'StudentD', 100, 40, 50, 40),
-  createData(5, 'E', 'StudentE', 20, 20, 70, 20),
+  createData(5, 'E', 'StudentE', 20, 20, 76, 20),
   createData(6, 'F', 'StudentF', 0, 0, 0, 0)
 ];
 
-const hundredCeil = n => Math.ceil(n / 100) * 100;
-
 const calculateBackgroundColor = score => {
-  let scaledScore;
   if (!score && score !== 0) {
-    return 'gray';
+    return blueGrey[400];
+  } else if (score === 100) {
+    return green['A700'];
+  } else if (score >= 95) {
+    return green['A400'];
+  } else if (score >= 90) {
+    return green['A200'];
   } else if (score >= 85) {
-    scaledScore = (score - 85) * 60;
-    return green[hundredCeil(scaledScore)];
-  } else if (score > 70) {
-    return 'yellow';
+    return lime['A200'];
+  } else if (score >= 80) {
+    return amber['A400'];
+  } else if (score >= 75) {
+    return amber['A700'];
+  } else if (score >= 70) {
+    return orange['A700'];
+  } else if (score >= 60) {
+    return deepOrange['A200'];
+  } else if (score >= 50) {
+    return deepOrange['A400'];
+  } else if (score >= 0) {
+    return deepOrange['A700'];
   } else {
-    return 'red';
+    return blueGrey[400];
   }
 };
 
