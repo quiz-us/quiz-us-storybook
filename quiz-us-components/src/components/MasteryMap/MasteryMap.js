@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { makeStyles } from '@material-ui/styles';
 import ReactTable from 'react-table';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import orange from '@material-ui/core/colors/orange';
@@ -6,27 +7,22 @@ import lime from '@material-ui/core/colors/lime';
 import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 import blueGrey from '@material-ui/core/colors/blueGrey';
+import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
 import 'react-table/react-table.css';
+import { classes } from 'istanbul-lib-coverage';
 
-function createData(id, name, standard1, standard2, standard3, standard4) {
-  return {
-    id,
-    name,
-    standard1,
-    standard2,
-    standard3,
-    standard4
-  };
-}
-
-const data = [
-  createData(1, 'Jane Doe', null, 85, 87, 100),
-  createData(2, 'John Doe', 80, 70, 20, 80),
-  createData(3, 'Elizabeth Holmes', 60, 20, 60, 93),
-  createData(4, 'Larry Page', 100, 40, 50, 40),
-  createData(5, 'Elon Musk', 20, 20, 76, 20),
-  createData(6, 'Steve Jobs', 0, 60, 75, 0)
-];
+const useStyles = makeStyles({
+  columnHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  infoIcon: {
+    fill: 'gray',
+    fontSize: '1em'
+  }
+});
 
 const calculateBackgroundColor = score => {
   if (!score && score !== 0) {
@@ -64,36 +60,40 @@ const ColoredCell = standard => (_, rowInfo) => {
   };
 };
 
-const columns = [
-  {
-    Header: 'Name',
-    accessor: 'name',
-    filterable: true
-  },
-  {
-    Header: 'Standard 1',
-    accessor: 'standard1',
-    getProps: ColoredCell('standard1')
-  },
-  {
-    Header: 'Standard 2',
-    accessor: 'standard2',
-    getProps: ColoredCell('standard2')
-  },
-  {
-    Header: 'Standard 3',
-    accessor: 'standard3',
-    getProps: ColoredCell('standard3')
-  },
-  {
-    Header: 'Standard 4',
-    accessor: 'standard4',
-    getProps: ColoredCell('standard4')
-  }
-];
+const generateColumns = (standards, classes) => {
+  const setColumns = [
+    {
+      Header: 'Name',
+      accessor: 'name',
+      filterable: true
+    }
+  ];
+  return setColumns.concat(
+    Object.keys(standards).map(standardId => {
+      const { name, description } = standards[standardId];
+      return {
+        Header: () => (
+          <div className={classes.columnHeader}>
+            {name}
+            <Tooltip title={description} placement="top-end">
+              <InfoIcon className={classes.infoIcon} />
+            </Tooltip>
+          </div>
+        ),
+        accessor: standardId,
+        getProps: ColoredCell(standardId)
+      };
+    })
+  );
+};
 
-const MasteryMap = ({ standards, studentData }) => {
-  return <ReactTable data={data} columns={columns} />;
+const MasteryMap = ({ standards, studentPerformance }) => {
+  const classes = useStyles();
+  const columns = useMemo(() => generateColumns(standards, classes), [
+    standards,
+    classes
+  ]);
+  return <ReactTable data={studentPerformance} columns={columns} />;
 };
 
 export default MasteryMap;

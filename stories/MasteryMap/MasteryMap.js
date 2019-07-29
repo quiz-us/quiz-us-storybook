@@ -25,12 +25,12 @@ const standards = {
 };
 
 const studentPerformance = [
-  { name: 'John Doe', 52: 100, 2: 80, 42: 85, 100: null },
-  { name: 'Jane Doe', 52: 100, 2: 80, 42: 85, 100: null },
-  { name: 'Jane Travolta', 52: 100, 2: 80, 42: 85, 100: null },
-  { name: 'John Travolta', 52: 100, 2: 80, 42: 85, 100: null },
-  { name: 'Jane Austen', 52: 100, 2: 80, 42: 85, 100: null },
-  { name: 'John Austen', 52: 100, 2: 80, 42: 85, 100: null }
+  { name: 'John Doe', 52: 80, 2: 80, 42: 85, 100: 20 },
+  { name: 'Jane Doe', 52: 90, 2: 80, 42: 95, 100: 89 },
+  { name: 'Jane Travolta', 52: 70, 2: 100, 42: 85, 100: null },
+  { name: 'John Travolta', 52: 100, 2: 80, 42: 75, 100: 72 },
+  { name: 'Jane Austen', 52: 20, 2: 80, 42: 85, 100: 100 },
+  { name: 'John Austen', 52: 100, 2: 80, 42: 85, 100: 100 }
 ];
 
 export default () => (
