@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import ReactTable from 'react-table';
 import deepOrange from '@material-ui/core/colors/deepOrange';
@@ -10,7 +11,6 @@ import blueGrey from '@material-ui/core/colors/blueGrey';
 import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
 import 'react-table/react-table.css';
-import { classes } from 'istanbul-lib-coverage';
 
 const useStyles = makeStyles({
   columnHeader: {
@@ -96,4 +96,17 @@ const MasteryMap = ({ standards, studentPerformance }) => {
   return <ReactTable data={studentPerformance} columns={columns} />;
 };
 
+MasteryMap.propTypes = {
+  studentPerformance: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired
+    })
+  ),
+  standards: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+    })
+  )
+};
 export default MasteryMap;
