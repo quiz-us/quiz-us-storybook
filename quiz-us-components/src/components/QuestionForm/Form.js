@@ -117,6 +117,11 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
             })}
           </Select>
         </FormControl>
+        <FormControl
+          className={`${classes.formControl} ${classes.wideFormControl}`}
+        >
+          <TagsForm fetchTags={fetchTags} />
+        </FormControl>
       </form>
     </Card>
   );
@@ -144,15 +149,6 @@ export default Form;
 //   answers: []
 // });
 // const [missingFields, updateMissingFields] = useState(false);
-
-// const updateTags = tags => {
-//   handleInputChange({
-//     target: {
-//       name: 'tags',
-//       value: tags
-//     }
-//   });
-// };
 
 // const updateQuestion = question => {
 //   handleInputChange({
@@ -213,11 +209,6 @@ export default Form;
 //   }
 // };
 
-//   <FormControl
-//     className={`${classes.formControl} ${classes.wideFormControl}`}
-//   >
-//     <TagsForm updateTags={updateTags} fetchTags={fetchTags} />
-//   </FormControl>
 //   <QuestionAndAnswers
 //     classes={classes}
 //     updateParentQuestion={updateQuestion}

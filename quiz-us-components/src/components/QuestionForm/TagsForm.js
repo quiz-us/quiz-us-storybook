@@ -1,5 +1,5 @@
 // using example from: https://material-ui.com/components/autocomplete/#downshift
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
+import { QuestionFormContext } from './QuestionFormContext';
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
@@ -60,19 +61,11 @@ renderSuggestion.propTypes = {
 };
 
 function DownshiftMultiple(props) {
-  const { classes, updateTags, fetchTags } = props;
-  const [inputValue, setInputValue] = React.useState('');
-  const [selectedItem, setSelectedItem] = React.useState([]);
-  const [suggestions, setSuggestions] = React.useState([]);
-  function handleKeyDown(event) {
-    if (
-      selectedItem.length &&
-      !inputValue.length &&
-      event.key === 'Backspace'
-    ) {
-      setSelectedItem(selectedItem.slice(0, selectedItem.length - 1));
-    }
-  }
+  const { classes, fetchTags } = props;
+  const [inputValue, setInputValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const { state, dispatch } = useContext(QuestionFormContext);
+  const { tags } = state;
 
   function getSuggestions(input) {
     const inputValue = input.trim().toLowerCase();
@@ -87,20 +80,33 @@ function DownshiftMultiple(props) {
     getSuggestions(input);
   }
 
+  function updateTags(updatedTags) {
+    dispatch({
+      type: 'update',
+      name: 'tags',
+      value: updatedTags
+    });
+  }
+
   function handleChange(item) {
-    let newSelectedItem = [...selectedItem];
+    let newSelectedItem = [...tags];
     if (newSelectedItem.indexOf(item) === -1) {
       newSelectedItem = [...newSelectedItem, item];
     }
     setInputValue('');
-    setSelectedItem(newSelectedItem);
     updateTags(newSelectedItem);
   }
 
+  function handleKeyDown(event) {
+    if (tags.length && !inputValue.length && event.key === 'Backspace') {
+      updateTags(tags.slice(0, tags.length - 1));
+    }
+  }
+
   const handleDelete = item => () => {
-    const newSelectedItem = [...selectedItem];
+    const newSelectedItem = [...tags];
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
-    setSelectedItem(newSelectedItem);
+    // setSelectedItem(newSelectedItem);
     updateTags(newSelectedItem);
   };
 
@@ -109,7 +115,7 @@ function DownshiftMultiple(props) {
       id="downshift-multiple"
       inputValue={inputValue}
       onChange={handleChange}
-      selectedItem={selectedItem}
+      selectedItem={tags}
     >
       {({
         getInputProps,
@@ -132,7 +138,7 @@ function DownshiftMultiple(props) {
               label: 'Tags',
               InputLabelProps: getLabelProps(),
               InputProps: {
-                startAdornment: selectedItem.map(item => (
+                startAdornment: tags.map(item => (
                   <Chip
                     key={item}
                     tabIndex={-1}

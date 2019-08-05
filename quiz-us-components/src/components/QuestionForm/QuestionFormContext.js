@@ -11,7 +11,8 @@ let reducer = (state, action) => {
 };
 const initialState = {
   questionType: '',
-  standard: ''
+  standard: '',
+  tags: []
 };
 const QuestionFormContext = React.createContext(initialState);
 
