@@ -11,9 +11,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import TagsForm from './TagsForm';
-import useForm from '../../hooks/useForm';
 import { QuestionFormContext } from './QuestionFormContext';
 import QuestionAndAnswers from './QuestionAndAnswers';
+import decamelize from '../../util/decamelize';
 import Plain from 'slate-plain-serializer';
 import empty from 'is-empty';
 
@@ -58,6 +58,10 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
   const classes = useStyles();
   const selectClasses = useSelectStyles();
 
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorMessage = () => setErrorMessage('');
+
   const handleInputChange = e => {
     dispatch({
       type: 'update',
@@ -66,9 +70,54 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
     });
   };
 
+  const validateAnswers = answers => {
+    if (questionType === 'Multiple Choice' && answers.length <= 1) {
+      return 'Multiple Choice questions should have more than 1 answer choice!';
+    }
+    for (let i = 0; i < answers.length; i += 1) {
+      const answer = answers[i].value;
+      const answerText = Plain.serialize(answer);
+
+      if (empty(answerText)) {
+        return 'Please make sure there are no empty answer(s)!';
+      }
+    }
+    return null;
+  };
+
+  const validateForm = () => {
+    const inputKeys = Object.keys(state);
+    for (let i = 0; i < inputKeys.length; i += 1) {
+      const inputKey = inputKeys[i];
+      let inputVal = state[inputKey];
+      if (inputKey === 'question') {
+        inputVal = Plain.serialize(inputVal);
+      } else if (inputKey === 'answers') {
+        const error = validateAnswers(inputVal);
+        /** @todo: investigate why setting error message here does not open dialog*/
+        if (error) {
+          setErrorMessage(error);
+          return false;
+        }
+      }
+      if (empty(inputVal)) {
+        setErrorMessage(`Please fill out '${decamelize(inputKey)}'!`);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (validateForm()) {
+      onSubmit(state);
+    }
+  };
+  console.log('whats the message', errorMessage);
   return (
     <Card>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="questionType-select">
             Select Question Type
@@ -122,9 +171,25 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
         >
           <TagsForm fetchTags={fetchTags} />
         </FormControl>
-
         <QuestionAndAnswers classes={classes} />
+        <Button
+          className={classes.submitButton}
+          type="submit"
+          variant="contained"
+          color="primary"
+          data-testid="submit-button"
+        >
+          Submit
+        </Button>
       </form>
+      <Dialog open={errorMessage !== ''} onClose={closeErrorMessage}>
+        <DialogTitle>{errorMessage}</DialogTitle>
+        <DialogActions>
+          <Button onClick={closeErrorMessage} color="primary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };
@@ -142,90 +207,3 @@ Form.propTypes = {
 };
 
 export default Form;
-
-// const { inputs, handleInputChange } = useForm({
-//   standard: '',
-//   questionType: '',
-//   tags: [],
-//   question: {},
-//   answers: []
-// });
-// const [missingFields, updateMissingFields] = useState(false);
-
-// const updateQuestion = question => {
-//   handleInputChange({
-//     target: {
-//       name: 'question',
-//       value: question
-//     }
-//   });
-// };
-
-// const updateAnswers = answers => {
-//   handleInputChange({
-//     target: {
-//       name: 'answers',
-//       value: answers
-//     }
-//   });
-// };
-
-// const closeEmptyFieldsWarning = () => {
-//   updateMissingFields(false);
-// };
-
-// const validateAnswers = answers => {
-//   /**
-//    * @todo: write answers validation:
-//    * 1. if it's multiple choice there needs to be more than 1 choice
-//    * 2. no empty string choices
-//    * */
-// };
-
-// const validateForm = () => {
-//   const inputKeys = Object.keys(inputs);
-//   for (let i = 0; i < inputKeys.length; i += 1) {
-//     const inputKey = inputKeys[i];
-//     let inputVal = inputs[inputKey];
-//     if (inputKey === 'question') {
-//       inputVal = Plain.serialize(inputVal);
-//     } else if (inputKey === 'answers') {
-//       inputVal = true;
-//       /** @todo: */
-//       // validateAnswers(inputVal)
-//     }
-//     if (empty(inputVal)) {
-//       console.error(`${inputKey} is unfilled!`);
-//       return false;
-//     }
-//   }
-//   return true;
-// };
-
-// const handleSubmit = e => {
-//   e.preventDefault();
-//   if (validateForm()) {
-//     onSubmit(inputs);
-//   } else {
-//     updateMissingFields(true);
-//   }
-// };
-
-//   <Button
-//     className={classes.submitButton}
-//     type="submit"
-//     variant="contained"
-//     color="primary"
-//     data-testid="submit-button"
-//   >
-//     Submit
-//         </Button>
-
-// <Dialog open={missingFields} onClose={closeEmptyFieldsWarning}>
-//   <DialogTitle>Please fill out all fields!</DialogTitle>
-//   <DialogActions>
-//     <Button onClick={closeEmptyFieldsWarning} color="primary" autoFocus>
-//       Close
-//           </Button>
-//   </DialogActions>
-// </Dialog>
