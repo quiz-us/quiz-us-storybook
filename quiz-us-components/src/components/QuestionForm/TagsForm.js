@@ -106,7 +106,6 @@ function DownshiftMultiple(props) {
   const handleDelete = item => () => {
     const newSelectedItem = [...tags];
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
-    // setSelectedItem(newSelectedItem);
     updateTags(newSelectedItem);
   };
 

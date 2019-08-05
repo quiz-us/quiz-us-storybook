@@ -122,6 +122,8 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
         >
           <TagsForm fetchTags={fetchTags} />
         </FormControl>
+
+        <QuestionAndAnswers classes={classes} />
       </form>
     </Card>
   );
@@ -209,12 +211,6 @@ export default Form;
 //   }
 // };
 
-//   <QuestionAndAnswers
-//     classes={classes}
-//     updateParentQuestion={updateQuestion}
-//     updateParentAnswers={updateAnswers}
-//     questionType={inputs.questionType}
-//   />
 //   <Button
 //     className={classes.submitButton}
 //     type="submit"

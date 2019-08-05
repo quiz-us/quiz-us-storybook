@@ -1,10 +1,21 @@
 import React, { useReducer } from 'react';
+import crypto from 'crypto';
+
+const generateAnswerId = () => crypto.randomBytes(20).toString('hex');
 
 let reducer = (state, action) => {
   const { type, name, value } = action;
   switch (type) {
     case 'update':
       return { ...state, [name]: value };
+    case 'addAnswerChoice':
+      return {
+        ...state,
+        answers: [
+          ...state.answers,
+          { value: undefined, answerId: generateAnswerId() }
+        ]
+      };
     default:
       return;
   }
@@ -12,7 +23,9 @@ let reducer = (state, action) => {
 const initialState = {
   questionType: '',
   standard: '',
-  tags: []
+  tags: [],
+  question: {},
+  answers: [{ value: undefined, answerId: generateAnswerId() }]
 };
 const QuestionFormContext = React.createContext(initialState);
 
