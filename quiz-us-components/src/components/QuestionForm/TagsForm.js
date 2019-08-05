@@ -177,8 +177,7 @@ function DownshiftMultiple(props) {
 }
 
 DownshiftMultiple.propTypes = {
-  classes: PropTypes.object.isRequired,
-  updateTags: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 const useStyles = makeStyles(theme => ({
@@ -226,7 +225,6 @@ const TagForm = props => {
 };
 
 TagForm.propTypes = {
-  updateTags: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired
 };
 

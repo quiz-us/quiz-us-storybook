@@ -54,7 +54,7 @@ const useSelectStyles = makeStyles({
 
 const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
   const { state, dispatch } = useContext(QuestionFormContext);
-  const { questionType, standard } = state;
+  const { questionType, standard, answers } = state;
   const classes = useStyles();
   const selectClasses = useSelectStyles();
 
@@ -68,6 +68,23 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
       name: e.target.name,
       value: e.target.value
     });
+  };
+
+  const handleQuestionTypeChange = e => {
+    const { value } = e.target;
+
+    if (value === 'Free Response' && answers.length > 1) {
+      if (
+        window.confirm(
+          'Changing to a Free Response question will clear your answer choices. Are you sure you want to continue?'
+        )
+      ) {
+        handleInputChange(e);
+        dispatch({ type: 'resetAnswerChoices' });
+      }
+    } else {
+      handleInputChange(e);
+    }
   };
 
   const validateAnswers = answers => {
@@ -114,7 +131,6 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
       onSubmit(state);
     }
   };
-  console.log('whats the message', errorMessage);
   return (
     <Card>
       <form className={classes.form} onSubmit={handleSubmit}>
@@ -124,7 +140,7 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
           </InputLabel>
           <Select
             value={questionType}
-            onChange={handleInputChange}
+            onChange={handleQuestionTypeChange}
             classes={selectClasses}
             className={classes.select}
             inputProps={{
