@@ -6,18 +6,20 @@ import {
   waitForElement
 } from '@testing-library/react';
 import TagsForm from './TagsForm';
+import { QuestionFormProvider } from './QuestionFormContext';
 
 describe('<TagsForm/>', () => {
-  let getByPlaceholderText, getByText;
-  const mockUpdateTags = jest.fn();
+  let getByPlaceholderText, getByText, getByTestId;
   const mockFetchTags = jest
     .fn()
     .mockResolvedValue([{ label: 'American Samoa' }]);
   beforeEach(() => {
     const component = (
-      <TagsForm updateTags={mockUpdateTags} fetchTags={mockFetchTags} />
+      <QuestionFormProvider>
+        <TagsForm fetchTags={mockFetchTags} />
+      </QuestionFormProvider>
     );
-    ({ getByPlaceholderText, getByText } = render(component));
+    ({ getByPlaceholderText, getByText, getByTestId } = render(component));
   });
   afterEach(cleanup);
 
@@ -42,11 +44,6 @@ describe('<TagsForm/>', () => {
     });
     const option = await waitForElement(() => getByText('American Samoa'));
     fireEvent.click(option);
-    expect(mockUpdateTags).toHaveBeenCalledWith(['American Samoa']);
+    expect(getByTestId('mui-chip').textContent).toEqual('American Samoa');
   });
-
-  /**
-   * @todo: finish rest of TagsForm tests once TagsForm has been updated to work
-   * with backend.
-   */
 });

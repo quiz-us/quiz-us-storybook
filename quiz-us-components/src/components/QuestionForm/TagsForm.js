@@ -141,6 +141,7 @@ function DownshiftMultiple(props) {
                   <Chip
                     key={item}
                     tabIndex={-1}
+                    data-testid="mui-chip"
                     label={item}
                     className={classes.chip}
                     onDelete={handleDelete(item)}
