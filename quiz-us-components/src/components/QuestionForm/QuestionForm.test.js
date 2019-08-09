@@ -1,5 +1,10 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitForElement
+} from '@testing-library/react';
 import QuestionForm from './QuestionForm';
 
 jest.mock('slate-plain-serializer', () => {
@@ -12,18 +17,9 @@ jest.mock('slate-plain-serializer', () => {
 
 // mock QuestionAndAnswers component because the RichTextEditor
 // it renders depends on window functions that don't exist in test context:
-jest.mock('./QuestionAndAnswers.js', () => ({ updateParentQuestion }) => {
-  function handleChange(event) {
-    updateParentQuestion(event.target.value);
-  }
+jest.mock('./QuestionAndAnswers.js', () => () => {
+  function handleChange(event) {}
   return <input onChange={handleChange} data-testid="question-rich-editor" />;
-});
-
-jest.mock('./TagsForm', () => ({ updateTags }) => {
-  function handleChange(event) {
-    updateTags(event.target.value);
-  }
-  return <input onChange={handleChange} data-testid="tags-form" />;
 });
 
 // https://www.polvara.me/posts/testing-a-custom-select-with-react-testing-library/
@@ -52,16 +48,18 @@ describe('<QuestionForm />', () => {
     { id: 2, name: 'Standard 2' }
   ];
   const onSubmit = jest.fn();
-  const fetchTags = jest.fn();
+  const mockFetchTags = jest
+    .fn()
+    .mockResolvedValue([{ label: 'American Samoa' }]);
 
-  let getByTestId, getByText;
+  let getByTestId, getByText, getByPlaceholderText, debug;
   beforeEach(() => {
-    ({ getByTestId, getByText } = render(
+    ({ getByTestId, getByText, getByPlaceholderText, debug } = render(
       <QuestionForm
         onSubmit={onSubmit}
         standards={standards}
         questionTypes={questionTypes}
-        fetchTags={fetchTags}
+        fetchTags={mockFetchTags}
       />
     ));
   });
@@ -84,31 +82,37 @@ describe('<QuestionForm />', () => {
     });
   });
 
+  describe('<TagsForm/>', () => {
+    test('autosuggests options based on input', async () => {
+      // currently console logging warnings about using `act` because mock
+      // function resolves a Promise. It seems that the fix is to wait for
+      // React 16.9.0: https://github.com/testing-library/react-testing-library/issues/281
+      fireEvent.change(getByPlaceholderText('Add one or more tag(s)'), {
+        target: {
+          value: 'a'
+        }
+      });
+      const option = await waitForElement(() => getByText('American Samoa'));
+      expect(option).toBeTruthy();
+    });
+
+    test('calls updateTags when input is chosen', async () => {
+      fireEvent.change(getByPlaceholderText('Add one or more tag(s)'), {
+        target: {
+          value: 'a'
+        }
+      });
+      const option = await waitForElement(() => getByText('American Samoa'));
+      fireEvent.click(option);
+      expect(getByTestId('mui-chip').textContent).toEqual('American Samoa');
+    });
+  });
+
   describe('submitting question form', () => {
     test('renders error modal if required fields are not filled', () => {
       fireEvent.click(getByTestId('submit-button'));
-      expect(getByText('Please fill out all fields!')).toBeTruthy();
+      expect(getByText("Please fill out 'Question Type'!")).toBeTruthy();
       expect(onSubmit).not.toHaveBeenCalled();
-    });
-    test('calls onSubmit when submitting if all validations pass', () => {
-      fireEvent.change(getByTestId('questionType-select'), {
-        target: { name: 'questionType', value: 'Multiple Choice' }
-      });
-      fireEvent.change(getByTestId('standard-select'), {
-        target: { name: 'standard', value: 1 }
-      });
-      fireEvent.change(getByTestId('tags-form'), {
-        target: { value: ['dummy tag'] }
-      });
-      fireEvent.change(getByTestId('question-rich-editor'), {
-        target: {
-          value: 'dummy content'
-        }
-      });
-
-      fireEvent.click(getByTestId('submit-button'));
-
-      expect(onSubmit).toHaveBeenCalled();
     });
   });
 });

@@ -111,7 +111,6 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
         inputVal = Plain.serialize(inputVal);
       } else if (inputKey === 'answers') {
         const error = validateAnswers(inputVal);
-        /** @todo: investigate why setting error message here does not open dialog*/
         if (error) {
           setErrorMessage(error);
           return false;

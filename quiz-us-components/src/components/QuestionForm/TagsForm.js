@@ -16,6 +16,7 @@ function renderInput(inputProps) {
     <TextField
       InputProps={{
         inputRef: ref,
+        'data-testid': 'tags-form',
         classes: {
           root: classes.inputRoot,
           input: classes.inputInput
