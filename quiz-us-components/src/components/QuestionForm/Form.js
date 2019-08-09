@@ -54,7 +54,7 @@ const useSelectStyles = makeStyles({
 
 const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
   const { state, dispatch } = useContext(QuestionFormContext);
-  const { questionType, standard, answers } = state;
+  const { questionType, standardId, answers } = state;
   const classes = useStyles();
   const selectClasses = useSelectStyles();
 
@@ -127,7 +127,17 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit(state);
+      const formData = {
+        ...state,
+        questionText: Plain.serialize(state.question),
+        answers: answers.map(answer => {
+          return {
+            ...answer,
+            answerText: Plain.serialize(answer.value)
+          };
+        })
+      };
+      onSubmit(formData);
     }
   };
   return (
@@ -159,12 +169,12 @@ const Form = ({ standards, questionTypes, onSubmit, fetchTags }) => {
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="standard-select">Select Standard</InputLabel>
           <Select
-            value={standard}
+            value={standardId}
             onChange={handleInputChange}
             classes={selectClasses}
             className={classes.select}
             inputProps={{
-              name: 'standard',
+              name: 'standardId',
               id: 'standard-select'
             }}
           >

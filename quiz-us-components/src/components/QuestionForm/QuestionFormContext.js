@@ -31,7 +31,7 @@ let reducer = (state, action) => {
 };
 const initialState = {
   questionType: '',
-  standard: '',
+  standardId: '',
   tags: [],
   question: {},
   answers: [defaultAnswer(true)]
