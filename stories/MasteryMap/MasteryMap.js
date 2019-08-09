@@ -1,12 +1,6 @@
-# Mastery Map
+import React from 'react';
+import { MasteryMap } from '../../quiz-us-components/src';
 
-## Description
-
-Table used for displaying student performance.
-
-## Usage
-
-```js
 const standards = {
   52: {
     name: '8.5A',
@@ -42,13 +36,3 @@ const studentPerformance = [
 export default () => (
   <MasteryMap standards={standards} studentPerformance={studentPerformance} />
 );
-
-
-```
-
-## Properties
-
-| Props                | Type                          | Required | Values | Default | Description                          |
-| -------------------- | ----------------------------- | :------: | ------ | ------- | ------------------------------------ |
-| `standards`          | `object of standards objects` |  `true`  |        |         | Object of teaching standards         |
-| `studentPerformance` | `array of objects`            |  `true`  |        |         | Array of student performance objects |
