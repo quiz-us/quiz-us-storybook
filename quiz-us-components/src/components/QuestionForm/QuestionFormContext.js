@@ -3,8 +3,9 @@ import crypto from 'crypto';
 
 const generateAnswerId = () => crypto.randomBytes(20).toString('hex');
 
-const defaultAnswer = () => ({
+const defaultAnswer = (isCorrect = false) => ({
   value: undefined,
+  isCorrect,
   answerId: generateAnswerId()
 });
 
@@ -17,12 +18,12 @@ let reducer = (state, action) => {
       return {
         ...state,
 
-        answers: [...state.answers, defaultAnswer()]
+        answers: [...state.answers, defaultAnswer(false)]
       };
     case 'resetAnswerChoices':
       return {
         ...state,
-        answers: [defaultAnswer()]
+        answers: [defaultAnswer(true)]
       };
     default:
       return;
@@ -33,7 +34,7 @@ const initialState = {
   standard: '',
   tags: [],
   question: {},
-  answers: [defaultAnswer()]
+  answers: [defaultAnswer(true)]
 };
 const QuestionFormContext = React.createContext(initialState);
 

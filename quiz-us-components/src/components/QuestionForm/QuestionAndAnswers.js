@@ -1,12 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { RichTextEditor } from '../../index';
 import { QuestionFormContext } from './QuestionFormContext';
+import { RED } from '../../theme/colors';
 
 const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 
@@ -14,6 +17,17 @@ const useStyles = makeStyles({
   addButton: {
     width: '35px',
     margin: '10px auto'
+  },
+  mcControls: {
+    position: 'relative'
+  },
+  correctCheckbox: {
+    marginLeft: '10px'
+  },
+  deleteButton: {
+    right: 0,
+    position: 'absolute',
+    color: RED
   }
 });
 
@@ -54,11 +68,29 @@ const QuestionAndAnswers = ({ classes }) => {
       updateAnswers(updated);
     };
   };
+
+  const handleCorrectAnswer = index => {
+    return e => {
+      const { checked } = e.target;
+      let updated = [...answers];
+      updated[index].isCorrect = checked;
+      if (checked) {
+        updated = updated.map((answer, i) => {
+          if (i !== index) {
+            answer.isCorrect = false;
+          }
+          return answer;
+        });
+      }
+      updateAnswers(updated);
+    };
+  };
+
   const answer = () => {
     if (questionType === 'Multiple Choice') {
       return (
         <React.Fragment>
-          {answers.map(({ value, answerId }, i) => {
+          {answers.map(({ value, answerId, isCorrect }, i) => {
             if (i > 25) {
               throw Error(
                 "You've added more answer choices than the allowed amount of 26!"
@@ -66,13 +98,28 @@ const QuestionAndAnswers = ({ classes }) => {
             }
             return (
               <div key={answerId}>
-                {ALPHABET[i]}.
-                <IconButton
-                  onClick={deleteAnswerChoice(i)}
-                  title="delete answer"
-                >
-                  <DeleteIcon />
-                </IconButton>
+                <div className={componentClasses.mcControls}>
+                  {ALPHABET[i]}.
+                  <FormControlLabel
+                    className={componentClasses.correctCheckbox}
+                    control={
+                      <Checkbox
+                        onChange={handleCorrectAnswer(i)}
+                        checked={isCorrect}
+                        value={i}
+                        color="primary"
+                      />
+                    }
+                    label="Correct Answer"
+                  />
+                  <IconButton
+                    className={componentClasses.deleteButton}
+                    onClick={deleteAnswerChoice(i)}
+                    title="delete answer"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
                 <RichTextEditor
                   initialValue={value}
                   updateParentState={updateAllAnswers(i)}
