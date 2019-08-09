@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import postcss from 'rollup-plugin-postcss';
 import input from './buildInputs';
 import pkg from './quiz-us-components/package.json';
 
@@ -30,6 +31,9 @@ module.exports = {
   },
   plugins: [
     resolve(),
+    postcss({
+      plugins: []
+    }),
     babel({
       exclude: ['node_modules/**']
     }),
