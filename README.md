@@ -2,6 +2,9 @@
 
 This is the development environment for building components for the [`@quiz-us/kit` component library](https://www.npmjs.com/package/@quiz-us/kit).
 
+## Version numbers
+`node`: 10.6.0
+
 ## Setting Up
 
 `npm run setup`
