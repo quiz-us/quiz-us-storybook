@@ -9,4 +9,5 @@ export { default as QuestionForm } from './components/QuestionForm';
 export {
   default as QuestionMultipleChoice
 } from './components/QuestionMultipleChoice';
-export { default as RichTextEditor } from './components/RichTextEditor';
+export { RichTextEditor } from './components/RichTextEditor';
+export { ReadOnly } from './components/RichTextEditor';
