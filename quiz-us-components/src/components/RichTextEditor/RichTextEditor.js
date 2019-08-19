@@ -16,40 +16,8 @@ import { Button, Toolbar } from './components';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import Plain from 'slate-plain-serializer';
-
-const styles = {
-  root: {
-    backgroundColor: '#F6F8FA',
-    '& blockquote': {
-      borderLeft: '2px solid #ddd',
-      marginLeft: 0,
-      marginRight: 0,
-      paddingLeft: '10px',
-      color: '#aaa',
-      fontStyle: 'italic'
-    },
-
-    "& blockquote[dir = 'rtl']": {
-      borderLeft: 'none',
-      paddingLeft: 0,
-      paddingRight: '10px',
-      borderRight: '2px solid #ddd'
-    },
-
-    '& code': {
-      backgroundColor: '#eee',
-      padding: '3px'
-    }
-  },
-  editor: {
-    fontFamily: "'Roboto', sans-serif",
-    lineHeight: 1.2,
-    padding: '15px'
-  },
-  icon: {
-    width: '.8em'
-  }
-};
+import styles from './RichTextEditorStyles';
+import { renderBlock, renderMark } from './slateRenders';
 
 /**
  * Define the default node type.
@@ -169,14 +137,13 @@ class RichTextEditor extends React.Component {
         <Editor
           className={classes.editor}
           spellCheck
-          autoFocus
           placeholder={placeholder}
           ref={this.ref}
           value={this.state.value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
-          renderBlock={this.renderBlock}
-          renderMark={this.renderMark}
+          renderBlock={renderBlock}
+          renderMark={renderMark}
         />
       </div>
     );
@@ -233,58 +200,6 @@ class RichTextEditor extends React.Component {
         {icon}
       </Button>
     );
-  };
-
-  /**
-   * Render a Slate block.
-   *
-   * @param {Object} props
-   * @return {Element}
-   */
-
-  renderBlock = (props, editor, next) => {
-    const { attributes, children, node } = props;
-
-    switch (node.type) {
-      case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>;
-      case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>;
-      case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>;
-      case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>;
-      case 'list-item':
-        return <li {...attributes}>{children}</li>;
-      case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>;
-      default:
-        return next();
-    }
-  };
-
-  /**
-   * Render a Slate mark.
-   *
-   * @param {Object} props
-   * @return {Element}
-   */
-
-  renderMark = (props, editor, next) => {
-    const { children, mark, attributes } = props;
-
-    switch (mark.type) {
-      case 'bold':
-        return <strong {...attributes}>{children}</strong>;
-      case 'code':
-        return <code {...attributes}>{children}</code>;
-      case 'italic':
-        return <em {...attributes}>{children}</em>;
-      case 'underlined':
-        return <u {...attributes}>{children}</u>;
-      default:
-        return next();
-    }
   };
 
   /**
