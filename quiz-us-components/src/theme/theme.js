@@ -5,6 +5,6 @@ import purple from '@material-ui/core/colors/purple';
 export default createMuiTheme({
   palette: {
     primary: teal,
-    secondary: purple[300],
+    secondary: purple
   }
 });
